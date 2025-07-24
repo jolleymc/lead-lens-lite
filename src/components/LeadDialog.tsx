@@ -171,9 +171,7 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
                         <SelectItem value="Google Maps">Google Maps</SelectItem>
                         <SelectItem value="LinkedIn">LinkedIn</SelectItem>
                         <SelectItem value="Referral">Referral</SelectItem>
-                        <SelectItem value="Cold Call">Cold Call</SelectItem>
                         <SelectItem value="Email Campaign">Email Campaign</SelectItem>
-                        <SelectItem value="Trade Show">Trade Show</SelectItem>
                         <SelectItem value="Website">Website</SelectItem>
                         <SelectItem value="Social Media">Social Media</SelectItem>
                         <SelectItem value="Other">Other</SelectItem>
