@@ -30,13 +30,11 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
       source: lead.source,
       location: lead.location,
       industry: lead.industry,
-      grantInfo: lead.grantInfo,
       currentWebQuality: lead.currentWebQuality,
       pitchStatus: lead.pitchStatus,
       followUpDate: lead.followUpDate,
       contractSecured: lead.contractSecured,
       setupCostQuoted: lead.setupCostQuoted,
-      commissionPercent: lead.commissionPercent,
       commissionEarned: lead.commissionEarned,
       notes: lead.notes,
     } : {
@@ -48,13 +46,11 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
       source: '',
       location: '',
       industry: '',
-      grantInfo: '',
       currentWebQuality: '',
       pitchStatus: 'New',
       followUpDate: '',
       contractSecured: false,
       setupCostQuoted: 0,
-      commissionPercent: 0,
       commissionEarned: 0,
       notes: '',
     }
@@ -236,20 +232,6 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
 
               <FormField
                 control={form.control}
-                name="grantInfo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Grant Info</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
                 name="currentWebQuality"
                 render={({ field }) => (
                   <FormItem>
@@ -322,20 +304,6 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
                     <FormLabel>Setup Cost Quoted ($)</FormLabel>
                     <FormControl>
                       <Input type="number" {...field} onChange={e => field.onChange(Number(e.target.value))} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="commissionPercent"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Commission %</FormLabel>
-                    <FormControl>
-                      <Input type="number" step="0.01" {...field} onChange={e => field.onChange(Number(e.target.value))} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

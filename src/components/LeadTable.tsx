@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Edit, Trash2, ExternalLink } from 'lucide-react';
 import { LeadDialog } from './LeadDialog';
+import { ScriptGenerator } from './ScriptGenerator';
 
 interface LeadTableProps {
   leads: Lead[];
@@ -99,7 +100,6 @@ export const LeadTable = ({ leads, onUpdateLead, onDeleteLead }: LeadTableProps)
               <TableCell>{formatCurrency(lead.setupCostQuoted)}</TableCell>
               <TableCell>
                 <div>
-                  <div>{lead.commissionPercent}%</div>
                   <div className="text-xs text-muted-foreground">
                     {formatCurrency(lead.commissionEarned)}
                   </div>
@@ -112,6 +112,7 @@ export const LeadTable = ({ leads, onUpdateLead, onDeleteLead }: LeadTableProps)
               </TableCell>
               <TableCell>
                 <div className="flex gap-2">
+                  <ScriptGenerator lead={lead} />
                   <LeadDialog
                     lead={lead}
                     onSubmit={(data) => onUpdateLead(lead.id!, data)}

@@ -10,13 +10,11 @@ export interface Lead {
   source: string;
   location: string;
   industry: string;
-  grantInfo: string;
   currentWebQuality: string;
   pitchStatus: 'New' | 'Contacted' | 'Qualified' | 'Proposal Sent' | 'Closed Won' | 'Closed Lost';
   followUpDate: string;
   contractSecured: boolean;
   setupCostQuoted: number;
-  commissionPercent: number;
   commissionEarned: number;
   notes: string;
 }
