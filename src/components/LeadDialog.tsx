@@ -159,9 +159,26 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Source</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select source" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-background border z-50">
+                        <SelectItem value="Google">Google</SelectItem>
+                        <SelectItem value="GovTribe">GovTribe</SelectItem>
+                        <SelectItem value="Google Maps">Google Maps</SelectItem>
+                        <SelectItem value="LinkedIn">LinkedIn</SelectItem>
+                        <SelectItem value="Referral">Referral</SelectItem>
+                        <SelectItem value="Cold Call">Cold Call</SelectItem>
+                        <SelectItem value="Email Campaign">Email Campaign</SelectItem>
+                        <SelectItem value="Trade Show">Trade Show</SelectItem>
+                        <SelectItem value="Website">Website</SelectItem>
+                        <SelectItem value="Social Media">Social Media</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -187,9 +204,33 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Industry</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select industry" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-background border z-50">
+                        <SelectItem value="Technology">Technology</SelectItem>
+                        <SelectItem value="Healthcare">Healthcare</SelectItem>
+                        <SelectItem value="Manufacturing">Manufacturing</SelectItem>
+                        <SelectItem value="Professional Services">Professional Services</SelectItem>
+                        <SelectItem value="Construction">Construction</SelectItem>
+                        <SelectItem value="Real Estate">Real Estate</SelectItem>
+                        <SelectItem value="Education">Education</SelectItem>
+                        <SelectItem value="Non-Profit">Non-Profit</SelectItem>
+                        <SelectItem value="Government">Government</SelectItem>
+                        <SelectItem value="Retail">Retail</SelectItem>
+                        <SelectItem value="Hospitality">Hospitality</SelectItem>
+                        <SelectItem value="Finance">Finance</SelectItem>
+                        <SelectItem value="Legal">Legal</SelectItem>
+                        <SelectItem value="Marketing/Advertising">Marketing/Advertising</SelectItem>
+                        <SelectItem value="Transportation">Transportation</SelectItem>
+                        <SelectItem value="Energy">Energy</SelectItem>
+                        <SelectItem value="Agriculture">Agriculture</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -215,9 +256,21 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Current Web Quality</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select web quality" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-background border z-50">
+                        <SelectItem value="None">No Website</SelectItem>
+                        <SelectItem value="Poor">Poor</SelectItem>
+                        <SelectItem value="Fair">Fair</SelectItem>
+                        <SelectItem value="Good">Good</SelectItem>
+                        <SelectItem value="Excellent">Excellent</SelectItem>
+                        <SelectItem value="Professional">Professional</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -232,10 +285,10 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue />
+                          <SelectValue placeholder="Select status" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="bg-background border z-50">
                         <SelectItem value="New">New</SelectItem>
                         <SelectItem value="Contacted">Contacted</SelectItem>
                         <SelectItem value="Qualified">Qualified</SelectItem>
