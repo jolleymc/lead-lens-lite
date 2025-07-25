@@ -7,12 +7,16 @@ import { LeadFiltersComponent } from '@/components/LeadFilters';
 import { BulkActions } from '@/components/BulkActions';
 import { CSVImport } from '@/components/CSVImport';
 import { CSVExport } from '@/components/CSVExport';
+import { KanbanBoard } from '@/components/KanbanBoard';
+import { FollowUpReminders } from '@/components/FollowUpReminders';
 import { useLeads } from '@/hooks/useLeads';
-import { Plus } from 'lucide-react';
+import { Plus, LayoutGrid, List } from 'lucide-react';
+import { useState } from 'react';
 
 const Index = () => {
   const {
     leads,
+    allLeads,
     filters,
     updateFilters,
     selectedLeads,
@@ -26,7 +30,16 @@ const Index = () => {
     addLead,
     updateLead,
     deleteLead,
+    activities,
+    tasks,
+    addActivity,
+    addTask,
+    toggleTask,
+    deleteTask,
+    markFollowUpComplete,
   } = useLeads();
+
+  const [viewMode, setViewMode] = useState<'table' | 'kanban'>('table');
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,6 +68,13 @@ const Index = () => {
         {/* Stats Cards */}
         <LeadStats leads={leads} />
 
+        {/* Follow-up Reminders */}
+        <FollowUpReminders 
+          leads={allLeads} 
+          tasks={tasks} 
+          onMarkFollowUpComplete={markFollowUpComplete}
+        />
+
         {/* Advanced Filters */}
         <LeadFiltersComponent
           filters={filters}
@@ -73,19 +93,55 @@ const Index = () => {
           onBulkUpdateStatus={bulkUpdateStatus}
         />
 
-        {/* Leads Table/Cards */}
+        {/* View Toggle */}
         <Card>
           <CardHeader>
-            <CardTitle>Leads ({leads.length})</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle>Leads ({leads.length})</CardTitle>
+              <div className="flex gap-2">
+                <Button
+                  variant={viewMode === 'table' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('table')}
+                  className="flex items-center gap-2"
+                >
+                  <List className="h-4 w-4" />
+                  Table
+                </Button>
+                <Button
+                  variant={viewMode === 'kanban' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('kanban')}
+                  className="flex items-center gap-2"
+                >
+                  <LayoutGrid className="h-4 w-4" />
+                  Kanban
+                </Button>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
-            <LeadTable 
-              leads={leads}
-              selectedLeads={selectedLeads}
-              onUpdateLead={updateLead}
-              onDeleteLead={deleteLead}
-              onToggleLeadSelection={toggleLeadSelection}
-            />
+            {viewMode === 'table' ? (
+              <LeadTable 
+                leads={leads}
+                selectedLeads={selectedLeads}
+                activities={activities}
+                tasks={tasks}
+                onUpdateLead={updateLead}
+                onDeleteLead={deleteLead}
+                onToggleLeadSelection={toggleLeadSelection}
+                onAddActivity={addActivity}
+                onAddTask={addTask}
+                onToggleTask={toggleTask}
+                onDeleteTask={deleteTask}
+              />
+            ) : (
+              <KanbanBoard
+                leads={leads}
+                onUpdateLead={updateLead}
+                onDeleteLead={deleteLead}
+              />
+            )}
           </CardContent>
         </Card>
       </div>

@@ -4,16 +4,23 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Edit, Trash2, ExternalLink, Phone, Mail, Globe, MapPin } from 'lucide-react';
+import { Edit, Trash2, ExternalLink, Phone, Mail, Globe, MapPin, Calendar } from 'lucide-react';
 import { LeadDialog } from './LeadDialog';
 import { ScriptGenerator } from './ScriptGenerator';
+import { ActivityTimeline, Activity, Task } from './ActivityTimeline';
 
 interface LeadTableProps {
   leads: Lead[];
   selectedLeads: Set<string>;
+  activities: Activity[];
+  tasks: Task[];
   onUpdateLead: (id: string, data: Partial<Lead>) => void;
   onDeleteLead: (id: string) => void;
   onToggleLeadSelection: (leadId: string) => void;
+  onAddActivity: (activity: Omit<Activity, 'id'>) => void;
+  onAddTask: (task: Omit<Task, 'id'>) => void;
+  onToggleTask: (taskId: string) => void;
+  onDeleteTask: (taskId: string) => void;
 }
 
 const statusColors = {
@@ -25,7 +32,7 @@ const statusColors = {
   'Closed Lost': 'bg-red-100 text-red-800',
 };
 
-export const LeadTable = ({ leads, selectedLeads, onUpdateLead, onDeleteLead, onToggleLeadSelection }: LeadTableProps) => {
+export const LeadTable = ({ leads, selectedLeads, activities, tasks, onUpdateLead, onDeleteLead, onToggleLeadSelection, onAddActivity, onAddTask, onToggleTask, onDeleteTask }: LeadTableProps) => {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -129,6 +136,15 @@ export const LeadTable = ({ leads, selectedLeads, onUpdateLead, onDeleteLead, on
                 <TableCell>{formatCurrency(lead.setupCostQuoted)}</TableCell>
                 <TableCell>
                   <div className="flex gap-1">
+                    <ActivityTimeline
+                      lead={lead}
+                      activities={activities}
+                      tasks={tasks}
+                      onAddActivity={onAddActivity}
+                      onAddTask={onAddTask}
+                      onToggleTask={onToggleTask}
+                      onDeleteTask={onDeleteTask}
+                    />
                     <ScriptGenerator lead={lead} />
                     <LeadDialog
                       lead={lead}
@@ -231,6 +247,15 @@ export const LeadTable = ({ leads, selectedLeads, onUpdateLead, onDeleteLead, on
                 </div>
 
                 <div className="flex gap-2 pt-2">
+                  <ActivityTimeline
+                    lead={lead}
+                    activities={activities}
+                    tasks={tasks}
+                    onAddActivity={onAddActivity}
+                    onAddTask={onAddTask}
+                    onToggleTask={onToggleTask}
+                    onDeleteTask={onDeleteTask}
+                  />
                   <ScriptGenerator lead={lead} />
                   <LeadDialog
                     lead={lead}

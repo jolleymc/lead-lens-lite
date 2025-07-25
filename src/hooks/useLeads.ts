@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Lead, LeadFormData } from '@/types/lead';
+import { Activity, Task } from '@/components/ActivityTimeline';
 
 export interface LeadFilters {
   searchTerm: string;
@@ -13,6 +14,8 @@ export interface LeadFilters {
 export const useLeads = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set());
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [filters, setFilters] = useState<LeadFilters>({
     searchTerm: '',
     statusFilter: 'all',
@@ -105,12 +108,49 @@ export const useLeads = () => {
     return matchesSearch && matchesStatus && matchesIndustry && matchesSource && matchesDateRange;
   });
 
+  // Activity management
+  const addActivity = (activity: Omit<Activity, 'id'>) => {
+    const newActivity: Activity = {
+      ...activity,
+      id: Date.now().toString() + Math.random(),
+    };
+    setActivities(prev => [newActivity, ...prev]);
+  };
+
+  // Task management
+  const addTask = (task: Omit<Task, 'id'>) => {
+    const newTask: Task = {
+      ...task,
+      id: Date.now().toString() + Math.random(),
+    };
+    setTasks(prev => [newTask, ...prev]);
+  };
+
+  const toggleTask = (taskId: string) => {
+    setTasks(prev => prev.map(task => 
+      task.id === taskId ? { ...task, completed: !task.completed } : task
+    ));
+  };
+
+  const deleteTask = (taskId: string) => {
+    setTasks(prev => prev.filter(task => task.id !== taskId));
+  };
+
+  const markFollowUpComplete = (leadId: string) => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 7); // Set next follow-up for a week later
+    setLeads(prev => prev.map(lead => 
+      lead.id === leadId ? { ...lead, followUpDate: tomorrow.toISOString().split('T')[0] } : lead
+    ));
+  };
+
   // Get unique values for filter dropdowns
   const uniqueIndustries = [...new Set(leads.map(lead => lead.industry))].filter(Boolean);
   const uniqueSources = [...new Set(leads.map(lead => lead.source))].filter(Boolean);
 
   return {
     leads: filteredLeads,
+    allLeads: leads, // For reminders that need to see all leads
     filters,
     updateFilters,
     selectedLeads,
@@ -124,6 +164,14 @@ export const useLeads = () => {
     addLead,
     updateLead,
     deleteLead,
+    // Activity & Task management
+    activities,
+    tasks,
+    addActivity,
+    addTask,
+    toggleTask,
+    deleteTask,
+    markFollowUpComplete,
     // Legacy compatibility
     searchTerm: filters.searchTerm,
     setSearchTerm: (term: string) => updateFilters({ searchTerm: term }),
