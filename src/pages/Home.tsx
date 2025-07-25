@@ -17,10 +17,10 @@ const Home = () => {
             Michael Jolley
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Information Technology Professional & CRM Developer
+            Information Technology Professional and Senior Sales Representative for LTC
           </p>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Welcome to my digital space. Explore my professional portfolio or access the lead management system I've built.
+            Welcome to my digital space. Explore my professional portfolio or access a demo of the lead management system I've built.
           </p>
         </div>
 
@@ -53,7 +53,7 @@ const Home = () => {
               </div>
               <CardTitle className="text-2xl">CRM System</CardTitle>
               <CardDescription className="text-base">
-                Access the comprehensive lead management system I've developed for sales tracking and customer relationship management.
+                Access a demo of the comprehensive lead management system I've developed for sales tracking and customer relationship management.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -71,7 +71,6 @@ const Home = () => {
         <div className="text-center mt-16 space-y-4">
           <h2 className="text-2xl font-semibold">Get In Touch</h2>
           <div className="flex flex-wrap justify-center gap-6 text-muted-foreground">
-            <span>522 Pheasant Run Circle · Harrisonburg, VA 22801</span>
             <span>(571) 528-6985</span>
             <a href="mailto:jolleymc@gmail.com" className="text-primary hover:underline">
               jolleymc@gmail.com
