@@ -5,7 +5,6 @@ import { Separator } from '@/components/ui/separator';
 import { Github, Linkedin, Mail, ArrowLeft, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import headshotImage from '@/assets/michael-jolley-headshot.jpg';
 
 const Portfolio = () => {
   return (
@@ -28,7 +27,7 @@ const Portfolio = () => {
         <div className="w-64 min-h-screen bg-muted/30 p-6 hidden lg:block">
           <div className="space-y-4">
             <div className="w-32 h-32 rounded-full mx-auto mb-6 overflow-hidden border-4 border-primary/20">
-              <img src={headshotImage} alt="Michael Jolley" className="w-full h-full object-cover" />
+              <img src="/lovable-uploads/9427fcde-3345-4bda-acfa-a2ca6e2f3e9a.png" alt="Michael Jolley" className="w-full h-full object-cover" />
             </div>
             
             <nav className="space-y-2">
