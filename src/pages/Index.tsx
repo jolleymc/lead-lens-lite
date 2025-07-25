@@ -10,6 +10,7 @@ import { CSVImport } from '@/components/CSVImport';
 import { CSVExport } from '@/components/CSVExport';
 import { KanbanBoard } from '@/components/KanbanBoard';
 import { FollowUpReminders } from '@/components/FollowUpReminders';
+import { UncontactedLeads } from '@/components/UncontactedLeads';
 import { CalendarIntegration } from '@/components/CalendarIntegration';
 import { EmailTemplates } from '@/components/EmailTemplates';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -183,11 +184,15 @@ const Index = () => {
 
           <TabsContent value="dashboard" className="space-y-6">
             <LeadStats leads={leads} />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
               <FollowUpReminders 
                 leads={allLeads} 
                 tasks={tasks} 
                 onMarkFollowUpComplete={markFollowUpComplete}
+              />
+              <UncontactedLeads 
+                leads={allLeads}
+                onUpdateLead={updateLead}
               />
               <Card>
                 <CardHeader>

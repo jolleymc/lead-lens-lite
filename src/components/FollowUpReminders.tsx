@@ -40,8 +40,7 @@ export const FollowUpReminders = ({ leads, tasks, onMarkFollowUpComplete }: Foll
 
     const upcoming = leads.filter(lead => 
       lead.followUpDate && 
-      lead.followUpDate > today && 
-      lead.followUpDate <= nextWeek &&
+      lead.followUpDate > today &&
       lead.pitchStatus !== 'Closed Won' && 
       lead.pitchStatus !== 'Closed Lost'
     );
@@ -75,7 +74,7 @@ export const FollowUpReminders = ({ leads, tasks, onMarkFollowUpComplete }: Foll
   };
 
   const getTotalReminders = () => {
-    return overdueLeads.length + todayFollowUps.length + overdueTasks.length + todayTasks.length;
+    return overdueLeads.length + todayFollowUps.length + upcomingFollowUps.length + overdueTasks.length + todayTasks.length;
   };
 
   if (getTotalReminders() === 0) {
@@ -93,7 +92,7 @@ export const FollowUpReminders = ({ leads, tasks, onMarkFollowUpComplete }: Foll
               <Bell className="h-12 w-12 mx-auto" />
             </div>
             <h3 className="font-medium text-lg">All caught up!</h3>
-            <p className="text-muted-foreground">No overdue follow-ups or tasks</p>
+            <p className="text-muted-foreground">No follow-ups or tasks</p>
           </div>
         </CardContent>
       </Card>
@@ -282,7 +281,7 @@ export const FollowUpReminders = ({ leads, tasks, onMarkFollowUpComplete }: Foll
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4 text-blue-600" />
               <h3 className="font-semibold text-blue-600">
-                Upcoming Follow-ups (Next 7 days)
+                Upcoming Follow-ups ({upcomingFollowUps.length})
               </h3>
             </div>
             <div className="space-y-2">
