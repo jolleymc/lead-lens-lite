@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Mail, Plus, Edit, Trash2, Copy, Send } from 'lucide-react';
 import { Lead } from '@/types/lead';
 import { useToast } from '@/hooks/use-toast';
@@ -275,17 +276,21 @@ export const EmailTemplates = ({ leads }: EmailTemplatesProps) => {
                 </div>
                 <div>
                   <Label htmlFor="category">Category</Label>
-                  <select
-                    className="w-full px-3 py-2 border border-input rounded-md"
+                  <Select
                     value={newTemplate.category}
-                    onChange={(e) => setNewTemplate({ ...newTemplate, category: e.target.value as EmailTemplate['category'] })}
+                    onValueChange={(value) => setNewTemplate({ ...newTemplate, category: value as EmailTemplate['category'] })}
                   >
-                    <option value="initial-contact">Initial Contact</option>
-                    <option value="follow-up">Follow-up</option>
-                    <option value="proposal">Proposal</option>
-                    <option value="closing">Closing</option>
-                    <option value="thank-you">Thank You</option>
-                  </select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="initial-contact">Initial Contact</SelectItem>
+                      <SelectItem value="follow-up">Follow-up</SelectItem>
+                      <SelectItem value="proposal">Proposal</SelectItem>
+                      <SelectItem value="closing">Closing</SelectItem>
+                      <SelectItem value="thank-you">Thank You</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
               <div>

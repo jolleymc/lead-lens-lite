@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { CalendarDays, Plus, Clock } from 'lucide-react';
 import { format, isSameDay, parseISO } from 'date-fns';
 import { Lead } from '@/types/lead';
@@ -147,32 +148,40 @@ export const CalendarIntegration = ({ leads }: CalendarIntegrationProps) => {
                     </div>
                     <div>
                       <Label htmlFor="type">Type</Label>
-                      <select
-                        className="w-full px-3 py-2 border border-input rounded-md"
+                      <Select
                         value={newEvent.type}
-                        onChange={(e) => setNewEvent({ ...newEvent, type: e.target.value as CalendarEvent['type'] })}
+                        onValueChange={(value) => setNewEvent({ ...newEvent, type: value as CalendarEvent['type'] })}
                       >
-                        <option value="meeting">Meeting</option>
-                        <option value="call">Call</option>
-                        <option value="follow-up">Follow-up</option>
-                        <option value="deadline">Deadline</option>
-                      </select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select event type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="meeting">Meeting</SelectItem>
+                          <SelectItem value="call">Call</SelectItem>
+                          <SelectItem value="follow-up">Follow-up</SelectItem>
+                          <SelectItem value="deadline">Deadline</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                   <div>
                     <Label htmlFor="lead">Related Lead (Optional)</Label>
-                    <select
-                      className="w-full px-3 py-2 border border-input rounded-md"
+                    <Select
                       value={newEvent.leadId}
-                      onChange={(e) => setNewEvent({ ...newEvent, leadId: e.target.value })}
+                      onValueChange={(value) => setNewEvent({ ...newEvent, leadId: value })}
                     >
-                      <option value="">Select a lead</option>
-                      {leads.map(lead => (
-                        <option key={lead.leadId} value={lead.leadId}>
-                          {lead.businessName}
-                        </option>
-                      ))}
-                    </select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a lead" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">None</SelectItem>
+                        {leads.map(lead => (
+                          <SelectItem key={lead.leadId} value={lead.leadId}>
+                            {lead.businessName}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <Button onClick={handleCreateEvent} className="w-full">
                     Create Event
