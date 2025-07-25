@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LeadDialog } from '@/components/LeadDialog';
 import { LeadTable } from '@/components/LeadTable';
 import { LeadStats } from '@/components/LeadStats';
@@ -9,8 +10,11 @@ import { CSVImport } from '@/components/CSVImport';
 import { CSVExport } from '@/components/CSVExport';
 import { KanbanBoard } from '@/components/KanbanBoard';
 import { FollowUpReminders } from '@/components/FollowUpReminders';
+import { CalendarIntegration } from '@/components/CalendarIntegration';
+import { EmailTemplates } from '@/components/EmailTemplates';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { useLeads } from '@/hooks/useLeads';
-import { Plus, LayoutGrid, List } from 'lucide-react';
+import { Plus, LayoutGrid, List, Calendar, Mail, Users } from 'lucide-react';
 import { useState } from 'react';
 
 const Index = () => {
@@ -50,7 +54,8 @@ const Index = () => {
             <h1 className="text-3xl font-bold">Lansdowne Technology CRM</h1>
             <p className="text-muted-foreground">Manage your sales leads and track your progress</p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex flex-col sm:flex-row gap-2 items-center">
+            <ThemeToggle />
             <CSVExport leads={leads} selectedLeads={selectedLeads} />
             <CSVImport onImportLeads={importLeadsFromCSV} />
             <LeadDialog 
@@ -65,85 +70,146 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <LeadStats leads={leads} />
+        {/* Main Content */}
+        <Tabs defaultValue="leads" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="leads" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              Leads
+            </TabsTrigger>
+            <TabsTrigger value="calendar" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              Calendar
+            </TabsTrigger>
+            <TabsTrigger value="email" className="flex items-center gap-2">
+              <Mail className="h-4 w-4" />
+              Email Templates
+            </TabsTrigger>
+            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+              <LayoutGrid className="h-4 w-4" />
+              Dashboard
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Follow-up Reminders */}
-        <FollowUpReminders 
-          leads={allLeads} 
-          tasks={tasks} 
-          onMarkFollowUpComplete={markFollowUpComplete}
-        />
+          <TabsContent value="leads" className="space-y-6">
+            {/* Stats Cards */}
+            <LeadStats leads={leads} />
 
-        {/* Advanced Filters */}
-        <LeadFiltersComponent
-          filters={filters}
-          updateFilters={updateFilters}
-          uniqueIndustries={uniqueIndustries}
-          uniqueSources={uniqueSources}
-          totalResults={leads.length}
-        />
+            {/* Follow-up Reminders */}
+            <FollowUpReminders 
+              leads={allLeads} 
+              tasks={tasks} 
+              onMarkFollowUpComplete={markFollowUpComplete}
+            />
 
-        {/* Bulk Actions */}
-        <BulkActions
-          selectedLeads={selectedLeads}
-          totalLeads={leads.length}
-          onToggleSelectAll={toggleSelectAll}
-          onBulkDelete={bulkDeleteLeads}
-          onBulkUpdateStatus={bulkUpdateStatus}
-        />
+            {/* Advanced Filters */}
+            <LeadFiltersComponent
+              filters={filters}
+              updateFilters={updateFilters}
+              uniqueIndustries={uniqueIndustries}
+              uniqueSources={uniqueSources}
+              totalResults={leads.length}
+            />
 
-        {/* View Toggle */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>Leads ({leads.length})</CardTitle>
-              <div className="flex gap-2">
-                <Button
-                  variant={viewMode === 'table' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setViewMode('table')}
-                  className="flex items-center gap-2"
-                >
-                  <List className="h-4 w-4" />
-                  Table
-                </Button>
-                <Button
-                  variant={viewMode === 'kanban' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setViewMode('kanban')}
-                  className="flex items-center gap-2"
-                >
-                  <LayoutGrid className="h-4 w-4" />
-                  Kanban
-                </Button>
-              </div>
+            {/* Bulk Actions */}
+            <BulkActions
+              selectedLeads={selectedLeads}
+              totalLeads={leads.length}
+              onToggleSelectAll={toggleSelectAll}
+              onBulkDelete={bulkDeleteLeads}
+              onBulkUpdateStatus={bulkUpdateStatus}
+            />
+
+            {/* View Toggle */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Leads ({leads.length})</CardTitle>
+                  <div className="flex gap-2">
+                    <Button
+                      variant={viewMode === 'table' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setViewMode('table')}
+                      className="flex items-center gap-2"
+                    >
+                      <List className="h-4 w-4" />
+                      Table
+                    </Button>
+                    <Button
+                      variant={viewMode === 'kanban' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setViewMode('kanban')}
+                      className="flex items-center gap-2"
+                    >
+                      <LayoutGrid className="h-4 w-4" />
+                      Kanban
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {viewMode === 'table' ? (
+                  <LeadTable 
+                    leads={leads}
+                    selectedLeads={selectedLeads}
+                    activities={activities}
+                    tasks={tasks}
+                    onUpdateLead={updateLead}
+                    onDeleteLead={deleteLead}
+                    onToggleLeadSelection={toggleLeadSelection}
+                    onAddActivity={addActivity}
+                    onAddTask={addTask}
+                    onToggleTask={toggleTask}
+                    onDeleteTask={deleteTask}
+                  />
+                ) : (
+                  <KanbanBoard
+                    leads={leads}
+                    onUpdateLead={updateLead}
+                    onDeleteLead={deleteLead}
+                  />
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="calendar">
+            <CalendarIntegration leads={allLeads} />
+          </TabsContent>
+
+          <TabsContent value="email">
+            <EmailTemplates leads={allLeads} />
+          </TabsContent>
+
+          <TabsContent value="dashboard" className="space-y-6">
+            <LeadStats leads={leads} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <FollowUpReminders 
+                leads={allLeads} 
+                tasks={tasks} 
+                onMarkFollowUpComplete={markFollowUpComplete}
+              />
+              <Card>
+                <CardHeader>
+                  <CardTitle>Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <LeadDialog 
+                    onSubmit={addLead} 
+                    trigger={
+                      <Button className="w-full flex items-center gap-2">
+                        <Plus className="h-4 w-4" />
+                        Add New Lead
+                      </Button>
+                    }
+                  />
+                  <CSVImport onImportLeads={importLeadsFromCSV} />
+                  <CSVExport leads={leads} selectedLeads={selectedLeads} />
+                </CardContent>
+              </Card>
             </div>
-          </CardHeader>
-          <CardContent>
-            {viewMode === 'table' ? (
-              <LeadTable 
-                leads={leads}
-                selectedLeads={selectedLeads}
-                activities={activities}
-                tasks={tasks}
-                onUpdateLead={updateLead}
-                onDeleteLead={deleteLead}
-                onToggleLeadSelection={toggleLeadSelection}
-                onAddActivity={addActivity}
-                onAddTask={addTask}
-                onToggleTask={toggleTask}
-                onDeleteTask={deleteTask}
-              />
-            ) : (
-              <KanbanBoard
-                leads={leads}
-                onUpdateLead={updateLead}
-                onDeleteLead={deleteLead}
-              />
-            )}
-          </CardContent>
-        </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
