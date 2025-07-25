@@ -101,7 +101,21 @@ export const LeadFiltersComponent = ({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Industries</SelectItem>
-                {uniqueIndustries.map((industry) => (
+                <SelectItem value="Agriculture">Agriculture</SelectItem>
+                <SelectItem value="Technology">Technology</SelectItem>
+                <SelectItem value="Healthcare">Healthcare</SelectItem>
+                <SelectItem value="Finance">Finance</SelectItem>
+                <SelectItem value="Education">Education</SelectItem>
+                <SelectItem value="Manufacturing">Manufacturing</SelectItem>
+                <SelectItem value="Retail">Retail</SelectItem>
+                <SelectItem value="Construction">Construction</SelectItem>
+                <SelectItem value="Real Estate">Real Estate</SelectItem>
+                <SelectItem value="Legal">Legal</SelectItem>
+                <SelectItem value="Consulting">Consulting</SelectItem>
+                <SelectItem value="Non-Profit">Non-Profit</SelectItem>
+                {uniqueIndustries.filter(industry => 
+                  !['Agriculture', 'Technology', 'Healthcare', 'Finance', 'Education', 'Manufacturing', 'Retail', 'Construction', 'Real Estate', 'Legal', 'Consulting', 'Non-Profit'].includes(industry)
+                ).map((industry) => (
                   <SelectItem key={industry} value={industry}>
                     {industry}
                   </SelectItem>
@@ -119,7 +133,19 @@ export const LeadFiltersComponent = ({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Sources</SelectItem>
-                {uniqueSources.map((source) => (
+                <SelectItem value="Website">Website</SelectItem>
+                <SelectItem value="Referral">Referral</SelectItem>
+                <SelectItem value="Cold Call">Cold Call</SelectItem>
+                <SelectItem value="LinkedIn">LinkedIn</SelectItem>
+                <SelectItem value="Google Ads">Google Ads</SelectItem>
+                <SelectItem value="Facebook">Facebook</SelectItem>
+                <SelectItem value="Trade Show">Trade Show</SelectItem>
+                <SelectItem value="Email Campaign">Email Campaign</SelectItem>
+                <SelectItem value="Partner">Partner</SelectItem>
+                <SelectItem value="Direct Mail">Direct Mail</SelectItem>
+                {uniqueSources.filter(source => 
+                  !['Website', 'Referral', 'Cold Call', 'LinkedIn', 'Google Ads', 'Facebook', 'Trade Show', 'Email Campaign', 'Partner', 'Direct Mail'].includes(source)
+                ).map((source) => (
                   <SelectItem key={source} value={source}>
                     {source}
                   </SelectItem>
