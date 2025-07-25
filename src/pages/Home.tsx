@@ -2,10 +2,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Briefcase, Users, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-background">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="container mx-auto px-4 py-16">
         {/* Hero Section */}
         <div className="text-center space-y-6 mb-16">
