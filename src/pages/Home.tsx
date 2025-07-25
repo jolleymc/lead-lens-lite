@@ -67,6 +67,18 @@ const Home = () => {
           </Card>
         </div>
 
+        {/* Authentication Link */}
+        <div className="text-center mt-12">
+          <Link to="/auth">
+            <Button variant="secondary" size="lg">
+              Sign In / Create Account
+            </Button>
+          </Link>
+          <p className="text-sm text-muted-foreground mt-2">
+            Create an account to save your CRM data and preferences
+          </p>
+        </div>
+
         {/* Contact Information */}
         <div className="text-center mt-16 space-y-4">
           <h2 className="text-2xl font-semibold">Get In Touch</h2>

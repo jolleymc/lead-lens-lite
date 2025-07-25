@@ -15,11 +15,24 @@ import { CalendarIntegration } from '@/components/CalendarIntegration';
 import { EmailTemplates } from '@/components/EmailTemplates';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useLeads } from '@/hooks/useLeads';
-import { Plus, LayoutGrid, List, Calendar, Mail, Users, ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
+import { Plus, LayoutGrid, List, Calendar, Mail, Users, ArrowLeft, LogOut } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 
 const CRM = () => {
+  const { user, signOut, loading } = useAuth();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const isDemo = searchParams.get('demo') === 'true';
+
+  // Redirect to auth if not authenticated and not in demo mode
+  useEffect(() => {
+    if (!loading && !user && !isDemo) {
+      navigate('/auth');
+    }
+  }, [user, loading, isDemo, navigate]);
+
   const {
     leads,
     allLeads,
@@ -60,12 +73,38 @@ const CRM = () => {
                   Back to Home
                 </Button>
               </Link>
+              {isDemo && (
+                <div className="bg-yellow-500/20 text-yellow-700 dark:text-yellow-300 px-3 py-1 rounded-full text-sm font-medium">
+                  Demo Mode
+                </div>
+              )}
             </div>
             <h1 className="text-3xl font-bold">Lansdowne Technology CRM</h1>
-            <p className="text-muted-foreground">Manage your sales leads and track your progress</p>
+            <p className="text-muted-foreground">
+              {isDemo 
+                ? "Exploring in demo mode - data won't be saved" 
+                : "Manage your sales leads and track your progress"
+              }
+            </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-2 items-center">
+            {user && (
+              <div className="text-sm text-muted-foreground">
+                Welcome, {user.email}
+              </div>
+            )}
             <ThemeToggle />
+            {user && (
+              <Button variant="ghost" onClick={signOut} className="gap-2">
+                <LogOut className="h-4 w-4" />
+                Sign Out
+              </Button>
+            )}
+            {!user && !isDemo && (
+              <Link to="/auth">
+                <Button variant="outline">Sign In</Button>
+              </Link>
+            )}
             <CSVExport leads={leads} selectedLeads={selectedLeads} />
             <CSVImport onImportLeads={importLeadsFromCSV} />
             <LeadDialog 
