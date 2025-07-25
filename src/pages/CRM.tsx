@@ -15,10 +15,11 @@ import { CalendarIntegration } from '@/components/CalendarIntegration';
 import { EmailTemplates } from '@/components/EmailTemplates';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useLeads } from '@/hooks/useLeads';
-import { Plus, LayoutGrid, List, Calendar, Mail, Users } from 'lucide-react';
+import { Plus, LayoutGrid, List, Calendar, Mail, Users, ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const Index = () => {
+const CRM = () => {
   const {
     leads,
     allLeads,
@@ -52,6 +53,14 @@ const Index = () => {
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
+            <div className="flex items-center gap-4 mb-2">
+              <Link to="/">
+                <Button variant="ghost" className="gap-2">
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Home
+                </Button>
+              </Link>
+            </div>
             <h1 className="text-3xl font-bold">Lansdowne Technology CRM</h1>
             <p className="text-muted-foreground">Manage your sales leads and track your progress</p>
           </div>
@@ -220,4 +229,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default CRM;
