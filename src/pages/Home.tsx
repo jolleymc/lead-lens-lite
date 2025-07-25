@@ -13,7 +13,7 @@ const Home = () => {
       <div className="container mx-auto px-4 py-16">
         {/* Hero Section */}
         <div className="text-center space-y-6 mb-16">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent leading-tight pb-2">
             Michael Jolley
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
