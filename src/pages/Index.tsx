@@ -6,6 +6,7 @@ import { LeadStats } from '@/components/LeadStats';
 import { LeadFiltersComponent } from '@/components/LeadFilters';
 import { BulkActions } from '@/components/BulkActions';
 import { CSVImport } from '@/components/CSVImport';
+import { CSVExport } from '@/components/CSVExport';
 import { useLeads } from '@/hooks/useLeads';
 import { Plus } from 'lucide-react';
 
@@ -37,6 +38,7 @@ const Index = () => {
             <p className="text-muted-foreground">Manage your sales leads and track your progress</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-2">
+            <CSVExport leads={leads} selectedLeads={selectedLeads} />
             <CSVImport onImportLeads={importLeadsFromCSV} />
             <LeadDialog 
               onSubmit={addLead} 
