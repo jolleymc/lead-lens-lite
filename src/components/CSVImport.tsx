@@ -56,36 +56,125 @@ export const CSVImport = ({ onImportLeads }: CSVImportProps) => {
     URL.revokeObjectURL(url);
   };
 
+  const detectAndConvertFormat = (headers: string[]): { isGoogleSheetsFormat: boolean; mappedHeaders: string[] } => {
+    const googleSheetsHeaders = [
+      'Lead ID', 'Date Added', 'Business Name', 'Contact Name', 'Phone Number', 
+      'Email', 'Website', 'Source', 'Location (City, State)', 'Industry', 
+      'Grant Info (if app)', 'Current Web Quality', 'Pitch Status', 'Follow-Up Date', 
+      'Contract Secured Y/N', 'Setup Cost Quoted', 'Comission %', 'Commission Earned', 'Notes'
+    ];
+
+    const isGoogleSheetsFormat = googleSheetsHeaders.some(header => 
+      headers.some(h => h.trim().toLowerCase() === header.toLowerCase())
+    );
+
+    if (isGoogleSheetsFormat) {
+      const headerMapping: { [key: string]: string } = {
+        'Lead ID': 'leadId',
+        'Date Added': 'dateAdded',
+        'Business Name': 'businessName',
+        'Contact Name': 'contactName',
+        'Phone Number': 'phoneNumber',
+        'Email': 'email',
+        'Website': 'website',
+        'Source': 'source',
+        'Location (City, State)': 'location',
+        'Industry': 'industry',
+        'Current Web Quality': 'currentWebQuality',
+        'Pitch Status': 'pitchStatus',
+        'Follow-Up Date': 'followUpDate',
+        'Contract Secured Y/N': 'contractSecured',
+        'Setup Cost Quoted': 'setupCostQuoted',
+        'Commission Earned': 'commissionEarned',
+        'Notes': 'notes'
+      };
+
+      const mappedHeaders = headers.map(header => {
+        const trimmedHeader = header.trim();
+        return headerMapping[trimmedHeader] || trimmedHeader;
+      });
+
+      return { isGoogleSheetsFormat: true, mappedHeaders };
+    }
+
+    return { isGoogleSheetsFormat: false, mappedHeaders: headers };
+  };
+
   const parseCSV = (csvText: string): Lead[] => {
     const lines = csvText.trim().split('\n');
     if (lines.length < 2) return [];
 
-    const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+    const originalHeaders = lines[0].split('\t').length > lines[0].split(',').length
+      ? lines[0].split('\t').map(h => h.trim().replace(/"/g, ''))
+      : lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+    
+    const { isGoogleSheetsFormat, mappedHeaders } = detectAndConvertFormat(originalHeaders);
     const rows = lines.slice(1);
 
+    if (isGoogleSheetsFormat) {
+      toast.success("Google Sheets format detected - automatically converting to CRM format");
+    }
+
     return rows.map((row, index) => {
-      const values = row.split(',').map(v => v.trim().replace(/"/g, ''));
+      const values = originalHeaders.length > row.split(',').length
+        ? row.split('\t').map(v => v.trim().replace(/"/g, ''))
+        : row.split(',').map(v => v.trim().replace(/"/g, ''));
+      
       const lead: any = {};
 
-      headers.forEach((header, i) => {
+      mappedHeaders.forEach((header, i) => {
         let value = values[i] || '';
         
-        // Convert specific fields
+        // Skip fields that we don't use anymore
+        if (header === 'Grant Info (if app)' || header === 'Comission %') {
+          return;
+        }
+        
+        // Convert specific fields based on the mapped header name
         if (header === 'contractSecured') {
-          lead[header] = value.toLowerCase() === 'true';
+          // Handle Y/N from Google Sheets format
+          if (isGoogleSheetsFormat) {
+            lead[header] = value.toLowerCase() === 'y' || value.toLowerCase() === 'yes';
+          } else {
+            lead[header] = value.toLowerCase() === 'true';
+          }
           return;
         } else if (header === 'setupCostQuoted' || header === 'commissionEarned') {
-          lead[header] = parseFloat(value) || 0;
+          // Remove any currency symbols and parse as number
+          const cleanValue = value.replace(/[$,]/g, '');
+          lead[header] = parseFloat(cleanValue) || 0;
+          return;
+        } else if (header === 'dateAdded' || header === 'followUpDate') {
+          // Handle date format conversion if needed
+          if (value && isGoogleSheetsFormat) {
+            try {
+              const date = new Date(value);
+              lead[header] = date.toISOString().split('T')[0];
+            } catch {
+              lead[header] = value;
+            }
+          } else {
+            lead[header] = value;
+          }
+          return;
+        } else if (header === 'pitchStatus') {
+          // Map some common status variations
+          const statusMapping: { [key: string]: string } = {
+            'not contacted': 'New',
+            'spoke - not interested': 'Contacted',
+            'not interested': 'Closed Lost'
+          };
+          lead[header] = statusMapping[value.toLowerCase()] || value || 'New';
           return;
         }
         
         lead[header] = value;
       });
 
-      // Set defaults for missing required fields
+      // Set defaults for missing required fields with better fallbacks
       return {
         businessName: lead.businessName || `Business ${index + 1}`,
-        contactName: lead.contactName || `Contact ${index + 1}`,
+        contactName: lead.contactName || 'Unknown Contact',
         email: lead.email || `contact${index + 1}@example.com`,
         phoneNumber: lead.phoneNumber || '000-000-0000',
         website: lead.website || '',
