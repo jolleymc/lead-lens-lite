@@ -167,14 +167,13 @@ export const CalendarIntegration = ({ leads }: CalendarIntegrationProps) => {
                   <div>
                     <Label htmlFor="lead">Related Lead (Optional)</Label>
                     <Select
-                      value={newEvent.leadId}
-                      onValueChange={(value) => setNewEvent({ ...newEvent, leadId: value })}
+                      value={newEvent.leadId || undefined}
+                      onValueChange={(value) => setNewEvent({ ...newEvent, leadId: value || '' })}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a lead" />
+                        <SelectValue placeholder="Select a lead (optional)" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">None</SelectItem>
                         {leads.map(lead => (
                           <SelectItem key={lead.leadId} value={lead.leadId}>
                             {lead.businessName}
