@@ -14,6 +14,116 @@ export type Database = {
   }
   public: {
     Tables: {
+      activities: {
+        Row: {
+          created_at: string
+          date: string
+          description: string
+          id: string
+          lead_id: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          description: string
+          id?: string
+          lead_id: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          lead_id?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activities_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          business_name: string
+          commission_earned: number | null
+          contact_name: string
+          contract_secured: boolean | null
+          created_at: string
+          current_web_quality: string | null
+          date_added: string
+          email: string
+          follow_up_date: string | null
+          id: string
+          industry: string
+          lead_id: string
+          location: string
+          notes: string | null
+          phone_number: string
+          pitch_status: string
+          setup_cost_quoted: number | null
+          source: string
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          business_name: string
+          commission_earned?: number | null
+          contact_name: string
+          contract_secured?: boolean | null
+          created_at?: string
+          current_web_quality?: string | null
+          date_added?: string
+          email: string
+          follow_up_date?: string | null
+          id?: string
+          industry: string
+          lead_id: string
+          location: string
+          notes?: string | null
+          phone_number: string
+          pitch_status?: string
+          setup_cost_quoted?: number | null
+          source: string
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          business_name?: string
+          commission_earned?: number | null
+          contact_name?: string
+          contract_secured?: boolean | null
+          created_at?: string
+          current_web_quality?: string | null
+          date_added?: string
+          email?: string
+          follow_up_date?: string | null
+          id?: string
+          industry?: string
+          lead_id?: string
+          location?: string
+          notes?: string | null
+          phone_number?: string
+          pitch_status?: string
+          setup_cost_quoted?: number | null
+          source?: string
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -37,6 +147,56 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      tasks: {
+        Row: {
+          completed: boolean | null
+          created_at: string
+          description: string | null
+          due_date: string | null
+          id: string
+          lead_id: string
+          priority: string
+          title: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean | null
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          lead_id: string
+          priority?: string
+          title: string
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean | null
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          lead_id?: string
+          priority?: string
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
