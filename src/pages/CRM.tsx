@@ -15,24 +15,24 @@ import { CalendarIntegration } from '@/components/CalendarIntegration';
 import { EmailTemplates } from '@/components/EmailTemplates';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useLeads } from '@/hooks/useLeads';
+import { useSupabaseLeads } from '@/hooks/useSupabaseLeads';
 import { useAuth } from '@/hooks/useAuth';
 import { Plus, LayoutGrid, List, Calendar, Mail, Users, ArrowLeft, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 
 const CRM = () => {
-  const { user, signOut, loading } = useAuth();
+  const { user, signOut, loading: authLoading } = useAuth();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const isDemo = searchParams.get('demo') === 'true';
-
-  // Redirect to auth if not authenticated and not in demo mode
-  useEffect(() => {
-    if (!loading && !user && !isDemo) {
-      navigate('/auth');
-    }
-  }, [user, loading, isDemo, navigate]);
-
+  
+  // Use Supabase for authenticated users, local state for demo
+  const supabaseLeads = useSupabaseLeads();
+  const localLeads = useLeads();
+  
+  const useLocal = isDemo || !user;
+  
   const {
     leads,
     allLeads,
@@ -56,9 +56,27 @@ const CRM = () => {
     toggleTask,
     deleteTask,
     markFollowUpComplete,
-  } = useLeads();
+  } = useLocal ? localLeads : supabaseLeads;
+  
+  // Get loading state from the correct hook
+  const dataLoading = useLocal ? false : supabaseLeads.loading;
+
+  // Redirect to auth if not authenticated and not in demo mode
+  useEffect(() => {
+    if (!authLoading && !user && !isDemo) {
+      navigate('/auth');
+    }
+  }, [user, authLoading, isDemo, navigate]);
 
   const [viewMode, setViewMode] = useState<'table' | 'kanban'>('table');
+
+  if (dataLoading || authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">

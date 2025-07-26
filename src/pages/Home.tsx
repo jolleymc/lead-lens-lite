@@ -1,14 +1,23 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Briefcase, Users, ArrowRight } from 'lucide-react';
+import { Briefcase, Users, ArrowRight, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { useAuth } from '@/hooks/useAuth';
 
 const Home = () => {
+  const { user, signOut } = useAuth();
+
   return (
     <div className="min-h-screen bg-background">
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 right-4 flex items-center gap-2">
         <ThemeToggle />
+        {user && (
+          <Button variant="outline" size="sm" onClick={signOut}>
+            <LogOut className="h-4 w-4 mr-2" />
+            Sign Out
+          </Button>
+        )}
       </div>
       <div className="container mx-auto px-4 py-16">
         {/* Hero Section */}
@@ -67,16 +76,32 @@ const Home = () => {
           </Card>
         </div>
 
-        {/* Authentication Link */}
+        {/* Authentication Section */}
         <div className="text-center mt-12">
-          <Link to="/auth">
-            <Button variant="secondary" size="lg">
-              Sign In / Create Account
-            </Button>
-          </Link>
-          <p className="text-sm text-muted-foreground mt-2">
-            Create an account to save your CRM data and preferences
-          </p>
+          {user ? (
+            <div className="space-y-4">
+              <div className="text-lg">
+                Welcome back, <span className="font-semibold text-primary">{user.user_metadata?.display_name || user.email}</span>!
+              </div>
+              <Link to="/crm">
+                <Button size="lg">
+                  Access Your CRM
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <>
+              <Link to="/auth">
+                <Button variant="secondary" size="lg">
+                  Sign In / Create Account
+                </Button>
+              </Link>
+              <p className="text-sm text-muted-foreground mt-2">
+                Create an account to save your CRM data and preferences
+              </p>
+            </>
+          )}
         </div>
 
         {/* Contact Information */}
