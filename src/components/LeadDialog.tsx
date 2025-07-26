@@ -11,6 +11,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Lead, LeadFormData } from '@/types/lead';
 import { Plus, ChevronDown, Shuffle } from 'lucide-react';
+import { sanitizeText, isValidEmail, isValidPhone, isValidURL } from '@/utils/sanitize';
+import { toast } from 'sonner';
 
 interface LeadDialogProps {
   onSubmit: (data: LeadFormData) => void;
@@ -94,7 +96,46 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
   });
 
   const handleSubmit = (data: LeadFormData) => {
-    onSubmit(data);
+    // Validate required fields
+    if (!data.businessName.trim() || !data.contactName.trim() || !data.email.trim()) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    // Validate email format
+    if (!isValidEmail(data.email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    // Validate phone number format
+    if (!isValidPhone(data.phoneNumber)) {
+      toast.error('Please enter a valid phone number');
+      return;
+    }
+
+    // Validate website URL if provided
+    if (data.website && !isValidURL(data.website)) {
+      toast.error('Please enter a valid website URL');
+      return;
+    }
+
+    // Sanitize all text inputs
+    const sanitizedData = {
+      ...data,
+      businessName: sanitizeText(data.businessName),
+      contactName: sanitizeText(data.contactName),
+      email: sanitizeText(data.email),
+      phoneNumber: sanitizeText(data.phoneNumber),
+      website: data.website ? sanitizeText(data.website) : data.website,
+      source: sanitizeText(data.source),
+      location: sanitizeText(data.location),
+      industry: sanitizeText(data.industry),
+      currentWebQuality: data.currentWebQuality ? sanitizeText(data.currentWebQuality) : data.currentWebQuality,
+      notes: data.notes ? sanitizeText(data.notes) : data.notes,
+    };
+
+    onSubmit(sanitizedData);
     setOpen(false);
     form.reset();
   };
