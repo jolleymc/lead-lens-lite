@@ -27,17 +27,7 @@ interface CalendarIntegrationProps {
 
 export const CalendarIntegration = ({ leads }: CalendarIntegrationProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const [events, setEvents] = useState<CalendarEvent[]>([
-    {
-      id: '1',
-      title: 'Follow-up with Tech Solutions Inc',
-      description: 'Discuss proposal feedback',
-      date: new Date(),
-      time: '10:00',
-      leadId: 'lead1',
-      type: 'follow-up'
-    }
-  ]);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newEvent, setNewEvent] = useState({
     title: '',
