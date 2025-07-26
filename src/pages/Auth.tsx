@@ -31,7 +31,10 @@ export default function Auth() {
       navigate('/crm?demo=true');
       return;
     }
-    await signIn(email, password);
+    const result = await signIn(email, password);
+    if (result.data?.user) {
+      navigate('/crm');
+    }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {

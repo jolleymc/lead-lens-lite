@@ -75,7 +75,7 @@ export const useAuth = () => {
           title: "Welcome back!",
           description: "You've been signed in successfully.",
         });
-        window.location.href = '/';
+        // Redirect will be handled by the CRM page useEffect
       }
 
       return { data, error: null };

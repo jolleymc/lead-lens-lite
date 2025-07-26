@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Filter, X } from "lucide-react";
-import { LeadFilters } from "@/hooks/useLeads";
+import { LeadFilters } from "@/hooks/useSupabaseLeads";
 
 interface LeadFiltersProps {
   filters: LeadFilters;
