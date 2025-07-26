@@ -158,38 +158,73 @@ export const useSupabaseLeads = () => {
       return;
     }
 
-    const { data, error } = await supabase
-      .from('leads')
-      .insert([{
-        user_id: user.id,
-        lead_id: `LEAD-${Date.now()}`,
-        business_name: leadData.businessName,
-        contact_name: leadData.contactName,
-        phone_number: leadData.phoneNumber,
-        email: leadData.email,
-        website: leadData.website,
-        source: leadData.source,
-        location: leadData.location,
-        industry: leadData.industry,
-        current_web_quality: leadData.currentWebQuality,
-        pitch_status: leadData.pitchStatus,
-        notes: leadData.notes,
-        follow_up_date: leadData.followUpDate,
-        setup_cost_quoted: leadData.setupCostQuoted,
-        contract_secured: leadData.contractSecured,
-        commission_earned: leadData.commissionEarned,
-      }])
-      .select()
-      .single();
+    try {
+      // Validate required fields
+      if (!leadData.businessName?.trim()) {
+        toast.error('Business name is required');
+        return;
+      }
+      if (!leadData.contactName?.trim()) {
+        toast.error('Contact name is required');
+        return;
+      }
+      if (!leadData.phoneNumber?.trim()) {
+        toast.error('Phone number is required');
+        return;
+      }
+      if (!leadData.email?.trim()) {
+        toast.error('Email is required');
+        return;
+      }
+      if (!leadData.source?.trim()) {
+        toast.error('Source is required');
+        return;
+      }
+      if (!leadData.location?.trim()) {
+        toast.error('Location is required');
+        return;
+      }
+      if (!leadData.industry?.trim()) {
+        toast.error('Industry is required');
+        return;
+      }
 
-    if (error) {
-      console.error('Error adding lead:', error);
-      toast.error('Failed to add lead');
-      return;
+      const { data, error } = await supabase
+        .from('leads')
+        .insert([{
+          user_id: user.id,
+          lead_id: `LEAD-${Date.now()}`,
+          business_name: leadData.businessName.trim(),
+          contact_name: leadData.contactName.trim(),
+          phone_number: leadData.phoneNumber.trim(),
+          email: leadData.email.trim(),
+          website: leadData.website?.trim() || null,
+          source: leadData.source.trim(),
+          location: leadData.location.trim(),
+          industry: leadData.industry.trim(),
+          current_web_quality: leadData.currentWebQuality?.trim() || null,
+          pitch_status: leadData.pitchStatus || 'New',
+          notes: leadData.notes?.trim() || null,
+          follow_up_date: leadData.followUpDate || null,
+          setup_cost_quoted: leadData.setupCostQuoted || 0,
+          contract_secured: leadData.contractSecured || false,
+          commission_earned: leadData.commissionEarned || 0,
+        }])
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error adding lead:', error);
+        toast.error(`Failed to add lead: ${error.message}`);
+        return;
+      }
+
+      await loadLeads();
+      toast.success('Lead added successfully');
+    } catch (error) {
+      console.error('Unexpected error adding lead:', error);
+      toast.error('Failed to add lead: Unexpected error');
     }
-
-    await loadLeads();
-    toast.success('Lead added successfully');
   };
 
   const updateLead = async (id: string, leadData: Partial<Lead>) => {
