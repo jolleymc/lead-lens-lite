@@ -20,7 +20,10 @@ export default function Auth() {
   // Redirect if already authenticated
   useEffect(() => {
     if (user && !loading) {
-      navigate('/crm');
+      // Get redirect URL from query params or default to CRM
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectTo = urlParams.get('redirect') || '/crm';
+      navigate(redirectTo);
     }
   }, [user, loading, navigate]);
 
@@ -33,7 +36,10 @@ export default function Auth() {
     }
     const result = await signIn(email, password);
     if (result.data?.user) {
-      navigate('/crm');
+      // Get redirect URL from query params or default to CRM
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectTo = urlParams.get('redirect') || '/crm';
+      navigate(redirectTo);
     }
   };
 

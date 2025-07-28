@@ -37,16 +37,17 @@ interface SearchCriteria {
 interface DiscoveredLead {
   id: string;
   companyName: string;
-  contactName: string;
-  jobTitle: string;
-  email: string;
-  phone: string;
+  contactName?: string;
+  jobTitle?: string;
+  email?: string;
+  phone?: string;
   website: string;
   location: string;
   industry: string;
   companySize: string;
   score: number;
   source: string;
+  websiteIssues?: string[];
 }
 
 const LeadGenerator = () => {
@@ -68,7 +69,7 @@ const LeadGenerator = () => {
   // Redirect to auth if not logged in
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/auth');
+      navigate('/auth?redirect=' + encodeURIComponent('/lead-generator'));
     }
   }, [user, loading, navigate]);
 
@@ -81,79 +82,74 @@ const LeadGenerator = () => {
       let mockLeads: DiscoveredLead[] = [];
       
       if (searchType === 'badWebsites') {
+        // This will be replaced with real web scraping
         mockLeads = [
           {
             id: '1',
-            companyName: 'Local Plumbing Co',
-            contactName: 'John Martinez',
-            jobTitle: 'Owner',
-            email: 'john@localplumbing.com',
-            phone: '(555) 123-4567',
-            website: 'https://oldplumbingsite.com',
+            companyName: 'Phoenix Plumbing Solutions',
+            website: 'https://phoenixplumbing.com',
             location: 'Phoenix, AZ',
             industry: 'Home Services',
             companySize: '1-10',
             score: 92,
-            source: 'Website Analysis'
+            source: 'Website Analysis',
+            websiteIssues: ['Outdated design', 'No mobile optimization', 'Slow loading speed'],
+            phone: 'Contact info needed',
+            email: 'Contact info needed'
           },
           {
             id: '2',
-            companyName: 'Bright Dental Practice',
-            contactName: 'Dr. Lisa Chen',
-            jobTitle: 'Practice Owner',
-            email: 'info@brightdental.com',
-            phone: '(555) 987-6543',
-            website: 'https://outdateddental.net',
+            companyName: 'Bright Dental Care',
+            website: 'https://brightdentalcare.com',
             location: 'Seattle, WA',
             industry: 'Healthcare',
             companySize: '11-50',
             score: 89,
-            source: 'Website Analysis'
+            source: 'Website Analysis',
+            websiteIssues: ['Poor SEO', 'No online booking', 'Outdated content'],
+            phone: 'Contact info needed',
+            email: 'Contact info needed'
           },
           {
             id: '3',
-            companyName: 'Mountain View Restaurant',
-            contactName: 'Tony Rodriguez',
-            jobTitle: 'Manager',
-            email: 'manager@mountainview.com',
-            phone: '(555) 456-7890',
-            website: 'https://basicrestaurant.info',
+            companyName: 'Mountain View Family Restaurant',
+            website: 'https://mountainviewrestaurant.com',
             location: 'Denver, CO',
             industry: 'Food & Beverage',
             companySize: '1-10',
             score: 94,
-            source: 'Website Analysis'
+            source: 'Website Analysis',
+            websiteIssues: ['No online ordering', 'Poor navigation', 'Missing contact info'],
+            phone: 'Contact info needed',
+            email: 'Contact info needed'
           }
         ];
       } else {
+        // This will be replaced with real business directory searches
         mockLeads = [
           {
             id: '1',
             companyName: 'TechCorp Solutions',
-            contactName: 'Sarah Johnson',
-            jobTitle: 'VP of Operations',
-            email: 'sarah.johnson@techcorp.com',
-            phone: '(555) 123-4567',
             website: 'https://techcorp.com',
             location: 'San Francisco, CA',
             industry: 'Technology',
             companySize: '50-200',
             score: 95,
-            source: 'LinkedIn'
+            source: 'Business Directory',
+            phone: 'Contact info needed',
+            email: 'Contact info needed'
           },
           {
             id: '2',
-            companyName: 'GrowthCo',
-            contactName: 'Michael Chen',
-            jobTitle: 'Chief Technology Officer',
-            email: 'mchen@growthco.com',
-            phone: '(555) 987-6543',
+            companyName: 'GrowthCo Digital',
             website: 'https://growthco.com',
             location: 'Austin, TX',
             industry: 'Software',
             companySize: '20-50',
             score: 88,
-            source: 'Company Directory'
+            source: 'Business Directory',
+            phone: 'Contact info needed',
+            email: 'Contact info needed'
           }
         ];
       }
@@ -180,15 +176,15 @@ const LeadGenerator = () => {
     try {
       const leadData = {
         businessName: lead.companyName,
-        contactName: lead.contactName,
-        phoneNumber: lead.phone,
-        email: lead.email,
+        contactName: lead.contactName || 'Contact needed',
+        phoneNumber: lead.phone || 'Phone needed',
+        email: lead.email || 'Email needed',
         website: lead.website,
         source: `Lead Generator - ${lead.source}`,
         location: lead.location,
         industry: lead.industry,
         pitchStatus: 'New' as const,
-        notes: `Lead score: ${lead.score}% | Company size: ${lead.companySize}`
+        notes: `Lead score: ${lead.score}% | Company size: ${lead.companySize}${lead.websiteIssues ? ' | Issues: ' + lead.websiteIssues.join(', ') : ''}`
       };
 
       await addLead(leadData);
@@ -444,8 +440,16 @@ const LeadGenerator = () => {
                       <div className="flex items-start justify-between">
                         <div className="flex-1 space-y-2">
                           <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-lg">{lead.contactName}</h3>
-                            <Badge variant="secondary">{lead.jobTitle}</Badge>
+                            <h3 className="font-bold text-xl">
+                              <a 
+                                href={lead.website} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline"
+                              >
+                                {lead.companyName}
+                              </a>
+                            </h3>
                             <div className="flex items-center gap-1">
                               <div className={`w-2 h-2 rounded-full ${getScoreColor(lead.score)}`} />
                               <span className="text-sm font-medium">{lead.score}% match</span>
@@ -454,12 +458,12 @@ const LeadGenerator = () => {
                           
                           <div className="flex items-center gap-4 text-sm text-muted-foreground">
                             <div className="flex items-center gap-1">
-                              <Building className="h-4 w-4" />
-                              {lead.companyName}
-                            </div>
-                            <div className="flex items-center gap-1">
                               <MapPin className="h-4 w-4" />
                               {lead.location}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Building className="h-4 w-4" />
+                              {lead.industry} • {lead.companySize} employees
                             </div>
                             <div className="flex items-center gap-1">
                               <Globe className="h-4 w-4" />
@@ -467,25 +471,36 @@ const LeadGenerator = () => {
                             </div>
                           </div>
 
-                          <div className="grid md:grid-cols-2 gap-2 text-sm">
+                          {lead.websiteIssues && (
+                            <div className="text-sm">
+                              <span className="font-medium text-destructive">Website Issues:</span>
+                              <div className="flex flex-wrap gap-1 mt-1">
+                                {lead.websiteIssues.map((issue, idx) => (
+                                  <Badge key={idx} variant="destructive" className="text-xs">
+                                    {issue}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="grid md:grid-cols-2 gap-2 text-sm text-muted-foreground">
                             <div>
-                              <span className="font-medium">Email:</span> {lead.email}
+                              <span className="font-medium">Email:</span> {lead.email || 'Contact info needed'}
                             </div>
                             <div>
-                              <span className="font-medium">Phone:</span> {lead.phone}
-                            </div>
-                            <div>
-                              <span className="font-medium">Website:</span> {lead.website}
-                            </div>
-                            <div>
-                              <span className="font-medium">Industry:</span> {lead.industry}
+                              <span className="font-medium">Phone:</span> {lead.phone || 'Contact info needed'}
                             </div>
                           </div>
                         </div>
 
                         <div className="flex gap-2">
-                          <Button size="sm" variant="outline">
-                            View Details
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => window.open(lead.website, '_blank')}
+                          >
+                            Visit Website
                           </Button>
                           <Button 
                             size="sm"
