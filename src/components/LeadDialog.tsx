@@ -97,13 +97,13 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
 
   const handleSubmit = (data: LeadFormData) => {
     // Validate required fields
-    if (!data.businessName.trim() || !data.contactName.trim() || !data.email.trim()) {
-      toast.error('Please fill in all required fields');
+    if (!data.businessName.trim()) {
+      toast.error('Business name is required');
       return;
     }
 
-    // Validate email format
-    if (!isValidEmail(data.email)) {
+    // Validate email format if provided
+    if (data.email && data.email.trim() && !isValidEmail(data.email)) {
       toast.error('Please enter a valid email address');
       return;
     }
@@ -124,8 +124,8 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
     const sanitizedData = {
       ...data,
       businessName: sanitizeText(data.businessName),
-      contactName: sanitizeText(data.contactName),
-      email: sanitizeText(data.email),
+      contactName: data.contactName ? sanitizeText(data.contactName) : undefined,
+      email: data.email ? sanitizeText(data.email) : undefined,
       phoneNumber: sanitizeText(data.phoneNumber),
       website: data.website ? sanitizeText(data.website) : data.website,
       source: sanitizeText(data.source),
@@ -182,9 +182,9 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
                   name="contactName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Contact Name</FormLabel>
+                      <FormLabel>Contact Name (Optional)</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} placeholder="To be collected later" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -210,9 +210,9 @@ export const LeadDialog = ({ onSubmit, lead, trigger }: LeadDialogProps) => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Email (Optional)</FormLabel>
                       <FormControl>
-                        <Input type="email" {...field} />
+                        <Input type="email" {...field} placeholder="To be collected later" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

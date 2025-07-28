@@ -3,9 +3,9 @@ export interface Lead {
   leadId: string;
   dateAdded: string;
   businessName: string;
-  contactName: string;
+  contactName?: string;
   phoneNumber: string;
-  email: string;
+  email?: string;
   website?: string;
   source: string;
   location: string;

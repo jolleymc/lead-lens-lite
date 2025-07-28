@@ -56,12 +56,12 @@ export type Database = {
         Row: {
           business_name: string
           commission_earned: number | null
-          contact_name: string
+          contact_name: string | null
           contract_secured: boolean | null
           created_at: string
           current_web_quality: string | null
           date_added: string
-          email: string
+          email: string | null
           follow_up_date: string | null
           id: string
           industry: string
@@ -79,12 +79,12 @@ export type Database = {
         Insert: {
           business_name: string
           commission_earned?: number | null
-          contact_name: string
+          contact_name?: string | null
           contract_secured?: boolean | null
           created_at?: string
           current_web_quality?: string | null
           date_added?: string
-          email: string
+          email?: string | null
           follow_up_date?: string | null
           id?: string
           industry: string
@@ -102,12 +102,12 @@ export type Database = {
         Update: {
           business_name?: string
           commission_earned?: number | null
-          contact_name?: string
+          contact_name?: string | null
           contract_secured?: boolean | null
           created_at?: string
           current_web_quality?: string | null
           date_added?: string
-          email?: string
+          email?: string | null
           follow_up_date?: string | null
           id?: string
           industry?: string
