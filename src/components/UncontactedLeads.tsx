@@ -47,39 +47,40 @@ export const UncontactedLeads = ({ leads, onUpdateLead }: UncontactedLeadsProps)
             {uncontactedLeads
               .sort((a, b) => new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime())
               .map((lead) => (
-              <Card key={lead.id} className="border-yellow-200 bg-yellow-50">
-                <CardContent className="py-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h4 className="font-medium">{lead.businessName}</h4>
+              <Card key={lead.id} className="border-warning/20 bg-warning/5 dark:border-warning/30 dark:bg-warning/10">
+                <CardContent className="py-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                    <div className="flex-1 min-w-0 space-y-2">
+                      <h4 className="font-medium text-foreground">{lead.businessName}</h4>
                       <p className="text-sm text-muted-foreground">
                         {lead.contactName} • {lead.industry}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Added: {formatDate(lead.dateAdded)}
                       </p>
-                      <div className="flex items-center gap-3 mt-1">
+                      <div className="flex flex-col sm:flex-row gap-2 mt-2">
                         <a 
                           href={`tel:${lead.phoneNumber}`}
-                          className="text-xs text-primary hover:underline flex items-center gap-1"
+                          className="text-xs text-primary hover:underline flex items-center gap-1 w-fit"
                         >
-                          <Phone className="h-3 w-3" />
-                          {lead.phoneNumber}
+                          <Phone className="h-3 w-3 flex-shrink-0" />
+                          <span className="truncate">{lead.phoneNumber}</span>
                         </a>
                         <a 
                           href={`mailto:${lead.email}`}
-                          className="text-xs text-primary hover:underline flex items-center gap-1"
+                          className="text-xs text-primary hover:underline flex items-center gap-1 w-fit"
                         >
-                          <Mail className="h-3 w-3" />
-                          {lead.email}
+                          <Mail className="h-3 w-3 flex-shrink-0" />
+                          <span className="truncate">{lead.email}</span>
                         </a>
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex-shrink-0">
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => markAsContacted(lead.id!)}
+                        className="w-full sm:w-auto whitespace-nowrap"
                       >
                         Mark as Contacted
                       </Button>
