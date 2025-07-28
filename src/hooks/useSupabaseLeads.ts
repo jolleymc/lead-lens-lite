@@ -164,16 +164,9 @@ export const useSupabaseLeads = () => {
         toast.error('Business name is required');
         return;
       }
-      if (!leadData.contactName?.trim()) {
-        toast.error('Contact name is required');
-        return;
-      }
+      // Contact name and email are now optional
       if (!leadData.phoneNumber?.trim()) {
         toast.error('Phone number is required');
-        return;
-      }
-      if (!leadData.email?.trim()) {
-        toast.error('Email is required');
         return;
       }
       if (!leadData.source?.trim()) {
@@ -195,9 +188,9 @@ export const useSupabaseLeads = () => {
           user_id: user.id,
           lead_id: `LEAD-${Date.now()}`,
           business_name: leadData.businessName.trim(),
-          contact_name: leadData.contactName.trim(),
+          contact_name: leadData.contactName?.trim() || null,
           phone_number: leadData.phoneNumber.trim(),
-          email: leadData.email.trim(),
+          email: leadData.email?.trim() || null,
           website: leadData.website?.trim() || null,
           source: leadData.source.trim(),
           location: leadData.location.trim(),
