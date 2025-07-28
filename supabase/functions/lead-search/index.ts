@@ -68,7 +68,9 @@ async function findBusinessesWithPoorWebsites(
   console.log('Searching for businesses with poor websites...');
   
   // Use Perplexity to find local businesses
-  const query = `Find 10 local businesses in ${criteria.location || 'the area'} ${criteria.industry ? `in the ${criteria.industry} industry` : ''} that likely need website improvements. Include business names and websites if available.`;
+  const location = criteria.location || 'United States';
+  const industry = criteria.industry || 'small business';
+  const query = `Find 10 local businesses in ${location} ${industry !== 'small business' ? `in the ${industry} industry` : ''} that likely need website improvements. Include business names and websites if available.`;
   
   const businesses = await searchWithPerplexity(query, perplexityApiKey);
   const leads: BusinessLead[] = [];
@@ -112,7 +114,9 @@ async function findBusinessesByCriteria(
 ): Promise<BusinessLead[]> {
   console.log('Searching businesses by criteria...');
   
-  const query = `Find 10 businesses ${criteria.location ? `in ${criteria.location}` : ''} ${criteria.industry ? `in the ${criteria.industry} industry` : ''} ${criteria.companySize ? `that are ${criteria.companySize} companies` : ''} ${criteria.keywords ? `related to ${criteria.keywords}` : ''}. Include business names, websites, and contact information.`;
+  const location = criteria.location || 'United States';
+  const industry = criteria.industry || 'business';
+  const query = `Find 10 businesses in ${location} ${industry !== 'business' ? `in the ${industry} industry` : ''} ${criteria.companySize ? `that are ${criteria.companySize} companies` : ''} ${criteria.keywords ? `related to ${criteria.keywords}` : ''}. Include business names, websites, and contact information.`;
   
   const businesses = await searchWithPerplexity(query, perplexityApiKey);
   const leads: BusinessLead[] = [];
