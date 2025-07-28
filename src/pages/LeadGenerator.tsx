@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -17,17 +17,21 @@ import {
   Globe,
   Filter,
   Download,
-  RefreshCw
+  RefreshCw,
+  Zap,
+  Plus
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { useAuth } from '@/hooks/useAuth';
+import { useSupabaseLeads } from '@/hooks/useSupabaseLeads';
+import { toast } from '@/hooks/use-toast';
 
 interface SearchCriteria {
   industry: string;
   location: string;
   companySize: string;
   keywords: string;
-  jobTitles: string;
 }
 
 interface DiscoveredLead {
@@ -46,60 +50,121 @@ interface DiscoveredLead {
 }
 
 const LeadGenerator = () => {
+  const { user, loading } = useAuth();
+  const { addLead } = useSupabaseLeads();
+  const navigate = useNavigate();
+  
   const [searchCriteria, setSearchCriteria] = useState<SearchCriteria>({
     industry: '',
     location: '',
     companySize: '',
-    keywords: '',
-    jobTitles: ''
+    keywords: ''
   });
   
   const [isSearching, setIsSearching] = useState(false);
   const [discoveredLeads, setDiscoveredLeads] = useState<DiscoveredLead[]>([]);
   const [searchResults, setSearchResults] = useState<any>(null);
 
-  const handleSearch = async () => {
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
+  const handleSearch = async (searchType: 'criteria' | 'badWebsites' = 'criteria') => {
     setIsSearching(true);
     
     // Simulate search process
     setTimeout(() => {
-      // Mock results for demo
-      const mockLeads: DiscoveredLead[] = [
-        {
-          id: '1',
-          companyName: 'TechCorp Solutions',
-          contactName: 'Sarah Johnson',
-          jobTitle: 'VP of Operations',
-          email: 'sarah.johnson@techcorp.com',
-          phone: '(555) 123-4567',
-          website: 'https://techcorp.com',
-          location: 'San Francisco, CA',
-          industry: 'Technology',
-          companySize: '50-200',
-          score: 95,
-          source: 'LinkedIn'
-        },
-        {
-          id: '2',
-          companyName: 'GrowthCo',
-          contactName: 'Michael Chen',
-          jobTitle: 'Chief Technology Officer',
-          email: 'mchen@growthco.com',
-          phone: '(555) 987-6543',
-          website: 'https://growthco.com',
-          location: 'Austin, TX',
-          industry: 'Software',
-          companySize: '20-50',
-          score: 88,
-          source: 'Company Directory'
-        }
-      ];
+      // Mock results based on search type
+      let mockLeads: DiscoveredLead[] = [];
+      
+      if (searchType === 'badWebsites') {
+        mockLeads = [
+          {
+            id: '1',
+            companyName: 'Local Plumbing Co',
+            contactName: 'John Martinez',
+            jobTitle: 'Owner',
+            email: 'john@localplumbing.com',
+            phone: '(555) 123-4567',
+            website: 'https://oldplumbingsite.com',
+            location: 'Phoenix, AZ',
+            industry: 'Home Services',
+            companySize: '1-10',
+            score: 92,
+            source: 'Website Analysis'
+          },
+          {
+            id: '2',
+            companyName: 'Bright Dental Practice',
+            contactName: 'Dr. Lisa Chen',
+            jobTitle: 'Practice Owner',
+            email: 'info@brightdental.com',
+            phone: '(555) 987-6543',
+            website: 'https://outdateddental.net',
+            location: 'Seattle, WA',
+            industry: 'Healthcare',
+            companySize: '11-50',
+            score: 89,
+            source: 'Website Analysis'
+          },
+          {
+            id: '3',
+            companyName: 'Mountain View Restaurant',
+            contactName: 'Tony Rodriguez',
+            jobTitle: 'Manager',
+            email: 'manager@mountainview.com',
+            phone: '(555) 456-7890',
+            website: 'https://basicrestaurant.info',
+            location: 'Denver, CO',
+            industry: 'Food & Beverage',
+            companySize: '1-10',
+            score: 94,
+            source: 'Website Analysis'
+          }
+        ];
+      } else {
+        mockLeads = [
+          {
+            id: '1',
+            companyName: 'TechCorp Solutions',
+            contactName: 'Sarah Johnson',
+            jobTitle: 'VP of Operations',
+            email: 'sarah.johnson@techcorp.com',
+            phone: '(555) 123-4567',
+            website: 'https://techcorp.com',
+            location: 'San Francisco, CA',
+            industry: 'Technology',
+            companySize: '50-200',
+            score: 95,
+            source: 'LinkedIn'
+          },
+          {
+            id: '2',
+            companyName: 'GrowthCo',
+            contactName: 'Michael Chen',
+            jobTitle: 'Chief Technology Officer',
+            email: 'mchen@growthco.com',
+            phone: '(555) 987-6543',
+            website: 'https://growthco.com',
+            location: 'Austin, TX',
+            industry: 'Software',
+            companySize: '20-50',
+            score: 88,
+            source: 'Company Directory'
+          }
+        ];
+      }
       
       setDiscoveredLeads(mockLeads);
       setSearchResults({
         totalFound: mockLeads.length,
-        sourcesSearched: ['LinkedIn', 'Company Directories', 'Business Websites'],
-        searchTime: '2.3 seconds'
+        sourcesSearched: searchType === 'badWebsites' 
+          ? ['Website Analysis', 'SEO Tools', 'Performance Scanners']
+          : ['LinkedIn', 'Company Directories', 'Business Websites'],
+        searchTime: searchType === 'badWebsites' ? '1.8 seconds' : '2.3 seconds'
       });
       setIsSearching(false);
     }, 3000);
@@ -110,6 +175,45 @@ const LeadGenerator = () => {
     if (score >= 75) return 'bg-yellow-500';
     return 'bg-red-500';
   };
+
+  const handleAddToCRM = async (lead: DiscoveredLead) => {
+    try {
+      const leadData = {
+        businessName: lead.companyName,
+        contactName: lead.contactName,
+        phoneNumber: lead.phone,
+        email: lead.email,
+        website: lead.website,
+        source: `Lead Generator - ${lead.source}`,
+        location: lead.location,
+        industry: lead.industry,
+        pitchStatus: 'New' as const,
+        notes: `Lead score: ${lead.score}% | Company size: ${lead.companySize}`
+      };
+
+      await addLead(leadData);
+      
+      toast({
+        title: "Lead Added!",
+        description: `${lead.companyName} has been added to your CRM.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to add lead to CRM. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Show loading while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <RefreshCw className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -132,11 +236,70 @@ const LeadGenerator = () => {
 
       <div className="container mx-auto p-6 space-y-6">
         {/* Search Configuration */}
-        <Card>
+        {/* Quick Actions */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <Card className="border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="h-5 w-5 text-primary" />
+                Quick Discovery
+              </CardTitle>
+              <CardDescription>
+                Find companies with poor websites that need improvement
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                onClick={() => handleSearch('badWebsites')} 
+                disabled={isSearching}
+                className="w-full"
+                size="lg"
+              >
+                {isSearching ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                    Scanning Websites...
+                  </>
+                ) : (
+                  <>
+                    <Search className="h-4 w-4 mr-2" />
+                    Find Companies with Bad Websites
+                  </>
+                )}
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Settings className="h-5 w-5" />
+                Custom Search
+              </CardTitle>
+              <CardDescription>
+                Define specific criteria for targeted lead discovery
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                size="lg"
+                onClick={() => document.getElementById('custom-search')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                <Filter className="h-4 w-4 mr-2" />
+                Configure Custom Search
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Custom Search Configuration */}
+        <Card id="custom-search">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Settings className="h-5 w-5" />
-              Search Configuration
+              Custom Search Configuration
             </CardTitle>
             <CardDescription>
               Define your target criteria to discover qualified leads
@@ -191,15 +354,6 @@ const LeadGenerator = () => {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="jobTitles">Target Job Titles</Label>
-                <Input
-                  id="jobTitles"
-                  placeholder="e.g., CEO, CTO, VP of Sales"
-                  value={searchCriteria.jobTitles}
-                  onChange={(e) => setSearchCriteria(prev => ({ ...prev, jobTitles: e.target.value }))}
-                />
-              </div>
             </div>
 
             <div className="space-y-2">
@@ -214,7 +368,7 @@ const LeadGenerator = () => {
             </div>
 
             <Button 
-              onClick={handleSearch} 
+              onClick={() => handleSearch('criteria')} 
               disabled={isSearching || !searchCriteria.industry}
               className="w-full"
               size="lg"
@@ -227,7 +381,7 @@ const LeadGenerator = () => {
               ) : (
                 <>
                   <Search className="h-4 w-4 mr-2" />
-                  Start Lead Discovery
+                  Start Custom Search
                 </>
               )}
             </Button>
@@ -333,7 +487,11 @@ const LeadGenerator = () => {
                           <Button size="sm" variant="outline">
                             View Details
                           </Button>
-                          <Button size="sm">
+                          <Button 
+                            size="sm"
+                            onClick={() => handleAddToCRM(lead)}
+                          >
+                            <Plus className="h-4 w-4 mr-1" />
                             Add to CRM
                           </Button>
                         </div>
