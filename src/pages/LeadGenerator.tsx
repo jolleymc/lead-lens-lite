@@ -27,6 +27,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSupabaseLeads } from '@/hooks/useSupabaseLeads';
 import { toast } from '@/hooks/use-toast';
 import { LeadSearchService } from '@/services/LeadSearchService';
+import { FreeLeadSearchService } from '@/services/FreeLeadSearchService';
 
 interface SearchCriteria {
   industry: string;
@@ -61,7 +62,7 @@ const LeadGenerator = () => {
     }
   }, [user, loading, navigate]);
 
-  const handleSearch = async (searchType: 'criteria' | 'badWebsites' = 'criteria') => {
+  const handleSearch = async (searchType: 'criteria' | 'badWebsites' = 'criteria', useFreeTier = false) => {
     setIsSearching(true);
     
     try {
@@ -73,23 +74,34 @@ const LeadGenerator = () => {
         keywords: searchCriteria.keywords
       };
 
-      console.log('Starting real search with criteria:', criteria);
+      console.log('Starting search with criteria:', criteria, 'Free tier:', useFreeTier);
       
-      // Use the real search service
-      const leads = await LeadSearchService.searchLeads(searchType, criteria);
+      // Use the appropriate search service
+      let leads;
+      let sources;
+      
+      if (useFreeTier) {
+        leads = await FreeLeadSearchService.searchLeads(searchType, criteria);
+        sources = searchType === 'badWebsites' 
+          ? ['Website Analysis', 'DuckDuckGo', 'Public Data']
+          : ['Free APIs', 'Public Directories', 'Web Search'];
+      } else {
+        leads = await LeadSearchService.searchLeads(searchType, criteria);
+        sources = searchType === 'badWebsites' 
+          ? ['Website Analysis', 'Firecrawl', 'SEO Tools']
+          : ['Perplexity AI', 'Business Directories', 'Web Search'];
+      }
       
       setDiscoveredLeads(leads);
       setSearchResults({
         totalFound: leads.length,
-        sourcesSearched: searchType === 'badWebsites' 
-          ? ['Website Analysis', 'Firecrawl', 'SEO Tools']
-          : ['Perplexity AI', 'Business Directories', 'Web Search'],
+        sourcesSearched: sources,
         searchTime: `${((Date.now() % 10000) / 1000).toFixed(1)} seconds`
       });
       
       toast({
         title: "Search Complete!",
-        description: `Found ${leads.length} potential leads.`,
+        description: `Found ${leads.length} potential leads using ${useFreeTier ? 'free' : 'premium'} search.`,
       });
     } catch (error) {
       console.error('Search failed:', error);
@@ -170,20 +182,20 @@ const LeadGenerator = () => {
       <div className="container mx-auto p-6 space-y-6">
         {/* Search Configuration */}
         {/* Quick Actions */}
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           <Card className="border-primary/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Zap className="h-5 w-5 text-primary" />
-                Quick Discovery
+                Quick Discovery (Premium)
               </CardTitle>
               <CardDescription>
-                Find companies with poor websites that need improvement
+                Find companies with poor websites using Firecrawl & Perplexity APIs
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-3">
               <Button 
-                onClick={() => handleSearch('badWebsites')} 
+                onClick={() => handleSearch('badWebsites', false)} 
                 disabled={isSearching}
                 className="w-full"
                 size="lg"
@@ -196,10 +208,45 @@ const LeadGenerator = () => {
                 ) : (
                   <>
                     <Search className="h-4 w-4 mr-2" />
-                    Find Companies with Bad Websites
+                    Premium Search
                   </>
                 )}
               </Button>
+              <p className="text-xs text-muted-foreground">Requires Firecrawl & Perplexity API keys</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-green-500/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="h-5 w-5 text-green-500" />
+                Quick Discovery (Free)
+              </CardTitle>
+              <CardDescription>
+                Find companies with website issues using free APIs
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Button 
+                onClick={() => handleSearch('badWebsites', true)} 
+                disabled={isSearching}
+                className="w-full"
+                size="lg"
+                variant="outline"
+              >
+                {isSearching ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                    Scanning Websites...
+                  </>
+                ) : (
+                  <>
+                    <Search className="h-4 w-4 mr-2" />
+                    Free Search
+                  </>
+                )}
+              </Button>
+              <p className="text-xs text-muted-foreground">No API keys required - limited results</p>
             </CardContent>
           </Card>
 
@@ -300,24 +347,44 @@ const LeadGenerator = () => {
               />
             </div>
 
-            <Button 
-              onClick={() => handleSearch('criteria')} 
-              disabled={isSearching || !searchCriteria.industry}
-              className="w-full"
-              size="lg"
-            >
-              {isSearching ? (
-                <>
-                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                  Searching...
-                </>
-              ) : (
-                <>
-                  <Search className="h-4 w-4 mr-2" />
-                  Start Custom Search
-                </>
-              )}
-            </Button>
+            <div className="grid md:grid-cols-2 gap-4">
+              <Button 
+                onClick={() => handleSearch('criteria', true)} 
+                disabled={isSearching || !searchCriteria.industry}
+                variant="outline"
+                size="lg"
+              >
+                {isSearching ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                    Searching...
+                  </>
+                ) : (
+                  <>
+                    <Search className="h-4 w-4 mr-2" />
+                    Free Custom Search
+                  </>
+                )}
+              </Button>
+              
+              <Button 
+                onClick={() => handleSearch('criteria', false)} 
+                disabled={isSearching || !searchCriteria.industry}
+                size="lg"
+              >
+                {isSearching ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                    Searching...
+                  </>
+                ) : (
+                  <>
+                    <Search className="h-4 w-4 mr-2" />
+                    Premium Custom Search
+                  </>
+                )}
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
