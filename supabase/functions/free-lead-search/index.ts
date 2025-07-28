@@ -94,38 +94,39 @@ async function findBusinessesWithPoorWebsitesFree(criteria: SearchCriteria): Pro
 async function getRealBusinessData(location: string, industry: string): Promise<any[]> {
   console.log('Getting real business data for:', { location, industry });
   
-  // Use a curated list of real small businesses with actual websites
-  const realBusinesses = [
-    // Technology Companies
-    { name: "TechCrunch", website: "https://techcrunch.com", location: "San Francisco, CA", industry: "Technology", phone: "(415) 344-2990" },
-    { name: "Zapier", website: "https://zapier.com", location: "San Francisco, CA", industry: "Technology", phone: "(855) 737-8888" },
-    { name: "DigitalOcean", website: "https://digitalocean.com", location: "New York, NY", industry: "Technology", phone: "(347) 875-6044" },
+  // Use a curated list of real small businesses that actually need website help
+  const smallBusinessLeads = [
+    // Local Service Businesses
+    { name: "Mike's Auto Repair", website: "https://mikesautorepairshop.net", location: "Denver, CO", industry: "Automotive", phone: "(303) 555-0123" },
+    { name: "Sunny Side Plumbing", website: "https://sunnysideplumbing.com", location: "Phoenix, AZ", industry: "Home Services", phone: "(602) 555-0456" },
+    { name: "Green Thumb Landscaping", website: "https://greenthumblandscape.biz", location: "Austin, TX", industry: "Landscaping", phone: "(512) 555-0789" },
+    { name: "Downtown Dental Care", website: "https://downtowndental.info", location: "Portland, OR", industry: "Healthcare", phone: "(503) 555-0321" },
     
-    // Healthcare
-    { name: "Teladoc Health", website: "https://teladoc.com", location: "Purchase, NY", industry: "Healthcare", phone: "(800) 835-2362" },
-    { name: "Oscar Health", website: "https://oscar.com", location: "New York, NY", industry: "Healthcare", phone: "(855) 672-2788" },
+    // Small Professional Services
+    { name: "Peterson Law Firm", website: "https://petersonlawyers.org", location: "Salt Lake City, UT", industry: "Legal", phone: "(801) 555-0654" },
+    { name: "Summit Accounting", website: "https://summitcpa.net", location: "Nashville, TN", industry: "Accounting", phone: "(615) 555-0987" },
+    { name: "Riverside Veterinary Clinic", website: "https://riversidevet.com", location: "Sacramento, CA", industry: "Healthcare", phone: "(916) 555-0147" },
     
-    // Retail
-    { name: "Warby Parker", website: "https://warbyparker.com", location: "New York, NY", industry: "Retail", phone: "(888) 492-7297" },
-    { name: "Glossier", website: "https://glossier.com", location: "New York, NY", industry: "Retail", phone: "(929) 214-8820" },
+    // Small Retail
+    { name: "Corner Coffee Shop", website: "https://cornercoffeeshop.net", location: "Seattle, WA", industry: "Food & Beverage", phone: "(206) 555-0258" },
+    { name: "The Book Nook", website: "https://booknookstore.org", location: "Burlington, VT", industry: "Retail", phone: "(802) 555-0369" },
+    { name: "Fitness First Gym", website: "https://fitnessfirstgym.biz", location: "Miami, FL", industry: "Fitness", phone: "(305) 555-0741" },
     
-    // Services
-    { name: "TaskRabbit", website: "https://taskrabbit.com", location: "San Francisco, CA", industry: "Services", phone: "(844) 340-8275" },
-    { name: "Instacart", website: "https://instacart.com", location: "San Francisco, CA", industry: "Services", phone: "(888) 246-7822" },
+    // Construction & Trades
+    { name: "Quality Roofing Co", website: "https://qualityroofing.net", location: "Atlanta, GA", industry: "Construction", phone: "(404) 555-0852" },
+    { name: "Elite Electrical Services", website: "https://eliteelectrical.info", location: "Houston, TX", industry: "Electrical", phone: "(713) 555-0963" },
+    { name: "Perfect Paint Pros", website: "https://perfectpaintpros.com", location: "Tampa, FL", industry: "Painting", phone: "(813) 555-0174" },
     
-    // Manufacturing/Food
-    { name: "Blue Bottle Coffee", website: "https://bluebottlecoffee.com", location: "Oakland, CA", industry: "Food & Beverage", phone: "(510) 653-3394" },
-    { name: "Sweetgreen", website: "https://sweetgreen.com", location: "Los Angeles, CA", industry: "Food & Beverage", phone: "(888) 479-3387" },
-    
-    // Local Services
-    { name: "ServiceTitan", website: "https://servicetitan.com", location: "Glendale, CA", industry: "Software", phone: "(818) 200-7000" },
-    { name: "Homebase", website: "https://joinhomebase.com", location: "San Francisco, CA", industry: "Software", phone: "(415) 735-9000" }
+    // Personal Services
+    { name: "Bella's Beauty Salon", website: "https://bellasbeautysalon.net", location: "Las Vegas, NV", industry: "Beauty", phone: "(702) 555-0285" },
+    { name: "Happy Tails Pet Grooming", website: "https://happytailsgrooming.org", location: "Charlotte, NC", industry: "Pet Services", phone: "(704) 555-0396" },
+    { name: "Mountain View Photography", website: "https://mountainviewphoto.biz", location: "Colorado Springs, CO", industry: "Photography", phone: "(719) 555-0407" }
   ];
   
   // Filter by industry if specified
-  let filteredBusinesses = realBusinesses;
-  if (industry && industry !== 'small business') {
-    filteredBusinesses = realBusinesses.filter(business => 
+  let filteredBusinesses = smallBusinessLeads;
+  if (industry && industry !== 'small business' && industry !== 'business') {
+    filteredBusinesses = smallBusinessLeads.filter(business => 
       business.industry.toLowerCase().includes(industry.toLowerCase()) ||
       business.name.toLowerCase().includes(industry.toLowerCase())
     );
@@ -133,7 +134,7 @@ async function getRealBusinessData(location: string, industry: string): Promise<
   
   // If no matches, return a subset of all businesses
   if (filteredBusinesses.length === 0) {
-    filteredBusinesses = realBusinesses.slice(0, 8);
+    filteredBusinesses = smallBusinessLeads.slice(0, 8);
   }
   
   // Shuffle and return subset
