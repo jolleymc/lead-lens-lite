@@ -28,7 +28,7 @@ const Home = () => {
 
           {/* Hero Text */}
           <div className="space-y-6 max-w-4xl mx-auto">
-            <h1 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent leading-tight">
+            <h1 className="text-6xl md:text-7xl font-bold leading-tight text-foreground">
               Michael Jolley
             </h1>
             <p className="text-2xl md:text-3xl text-muted-foreground">
