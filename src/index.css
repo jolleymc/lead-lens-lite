@@ -124,8 +124,22 @@ All colors MUST be HSL.
     }
   }
   
+  /* Softer float for avatars to avoid clipping under the nav */
+  @keyframes float-soft {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
   .animate-float {
     animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-soft {
+    animation: float-soft 6s ease-in-out infinite;
   }
 }
 

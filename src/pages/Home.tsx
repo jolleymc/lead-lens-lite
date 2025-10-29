@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section with Animated Background */}
-      <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 md:pt-32">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float" />
@@ -17,7 +17,7 @@ const Home = () => {
         <div className="container mx-auto px-4 text-center space-y-12 animate-fade-in">
           {/* Profile Image */}
           <div className="flex justify-center mb-8">
-            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl animate-float">
+            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl animate-float-soft">
               <img 
                 src="/lovable-uploads/9427fcde-3345-4bda-acfa-a2ca6e2f3e9a.png" 
                 alt="Michael Jolley" 
