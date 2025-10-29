@@ -21,7 +21,7 @@ const Home = () => {
               <img 
                 src="/lovable-uploads/9427fcde-3345-4bda-acfa-a2ca6e2f3e9a.png" 
                 alt="Michael Jolley" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-[center_20%]"
               />
             </div>
           </div>
