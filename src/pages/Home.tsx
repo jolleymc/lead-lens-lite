@@ -1,57 +1,91 @@
 import { Button } from '@/components/ui/button';
-import { Briefcase, ArrowRight } from 'lucide-react';
+import { ArrowRight, Code, Briefcase, Trophy, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { ThemeToggle } from '@/components/ThemeToggle';
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="absolute top-4 right-4">
-        <ThemeToggle />
-      </div>
-      <div className="container mx-auto px-4 py-16">
-        {/* Hero Section */}
-        <div className="text-center space-y-6 mb-16">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent leading-tight pb-2">
-            Michael Jolley
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Information Technology Professional and Senior Sales Representative for LTC
-          </p>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Welcome to my digital space. Explore my professional portfolio showcasing my projects, skills, and experience.
-          </p>
+    <div className="min-h-screen">
+      {/* Hero Section with Animated Background */}
+      <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
         </div>
 
-        {/* Portfolio Card */}
-        <div className="max-w-md mx-auto">
-          <div className="text-center space-y-8 p-8 border-2 border-primary/20 rounded-lg hover:border-primary/50 transition-all duration-300 hover:shadow-lg bg-card">
-            <div className="mx-auto w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
-              <Briefcase className="h-10 w-10 text-primary" />
+        <div className="container mx-auto px-4 text-center space-y-12 animate-fade-in">
+          {/* Profile Image */}
+          <div className="flex justify-center mb-8">
+            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl animate-float">
+              <img 
+                src="/lovable-uploads/9427fcde-3345-4bda-acfa-a2ca6e2f3e9a.png" 
+                alt="Michael Jolley" 
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold">Professional Portfolio</h2>
-              <p className="text-muted-foreground text-lg">
-                Explore my projects, skills, education, and professional experience in technology and cybersecurity.
-              </p>
-            </div>
-            <Link to="/portfolio">
-              <Button size="lg" className="w-full text-lg py-6">
-                View Portfolio
-                <ArrowRight className="ml-2 h-5 w-5" />
+          </div>
+
+          {/* Hero Text */}
+          <div className="space-y-6 max-w-4xl mx-auto">
+            <h1 className="text-6xl md:text-7xl font-bold gradient-text leading-tight">
+              Michael Jolley
+            </h1>
+            <p className="text-2xl md:text-3xl text-muted-foreground">
+              Information Technology Student
+            </p>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Cybersecurity enthusiast | Full-Stack Developer | Data Analyst
+            </p>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
+            <Link to="/about">
+              <Button size="lg" className="gap-2 text-lg px-8 py-6 animate-glow">
+                Explore Portfolio
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to="/contact">
+              <Button size="lg" variant="outline" className="gap-2 text-lg px-8 py-6">
+                <Mail className="h-5 w-5" />
+                Contact Me
               </Button>
             </Link>
           </div>
-        </div>
 
-        {/* Contact Information */}
-        <div className="text-center mt-16 space-y-4">
-          <h2 className="text-2xl font-semibold">Get In Touch</h2>
-          <div className="flex flex-wrap justify-center gap-6 text-muted-foreground">
-            <span>(571) 528-6985</span>
-            <a href="mailto:jolleymc@gmail.com" className="text-primary hover:underline">
-              jolleymc@gmail.com
-            </a>
+          {/* Quick Links */}
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto pt-16">
+            <Link to="/experience" className="group">
+              <div className="p-6 rounded-xl border border-border bg-card/50 backdrop-blur card-hover">
+                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Briefcase className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Experience</h3>
+                <p className="text-muted-foreground">5+ roles in tech and sales</p>
+              </div>
+            </Link>
+
+            <Link to="/projects" className="group">
+              <div className="p-6 rounded-xl border border-border bg-card/50 backdrop-blur card-hover">
+                <div className="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Code className="h-8 w-8 text-accent" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Projects</h3>
+                <p className="text-muted-foreground">8+ technical projects & labs</p>
+              </div>
+            </Link>
+
+            <Link to="/skills" className="group">
+              <div className="p-6 rounded-xl border border-border bg-card/50 backdrop-blur card-hover">
+                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Trophy className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Skills</h3>
+                <p className="text-muted-foreground">30+ technical skills</p>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
