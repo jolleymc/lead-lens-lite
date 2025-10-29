@@ -28,14 +28,14 @@ const Home = () => {
 
           {/* Hero Text */}
           <div className="space-y-6 max-w-4xl mx-auto">
-            <h1 className="text-6xl md:text-7xl font-bold gradient-text leading-tight">
+            <h1 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent leading-tight">
               Michael Jolley
             </h1>
             <p className="text-2xl md:text-3xl text-muted-foreground">
-              Information Technology Student
+              AI Intern at Pelican Intel
             </p>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Cybersecurity enthusiast | Full-Stack Developer | Data Analyst
+              AI | Cybersecurity | Networking | Python
             </p>
           </div>
 
@@ -56,7 +56,7 @@ const Home = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto pt-16">
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto pt-16 pb-20">
             <Link to="/experience" className="group">
               <div className="p-6 rounded-xl border border-border bg-card/50 backdrop-blur card-hover">
                 <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
