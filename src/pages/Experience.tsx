@@ -4,10 +4,20 @@ import { Briefcase } from 'lucide-react';
 
 const experiences = [
   {
+    title: 'AI/ML Intern',
+    company: 'General Dynamics Information Technology',
+    location: 'TBD',
+    period: 'Summer 2025',
+    description: [
+      'Incoming AI/ML Intern for Summer 2025.',
+      'Will work on artificial intelligence and machine learning projects supporting mission-critical operations.'
+    ]
+  },
+  {
     title: 'AI Intern',
     company: 'Pelican Intel with CCI Experiential Entrepreneurship Internship Program',
     location: 'Remote',
-    period: '09/2025 – Present',
+    period: '09/2024 – Present',
     description: [
       'Developed proof-of-concept workflows in Python using LangChain to prototype LLM-based chatbots and semantic search tools, ensuring alignment with CJIS compliance requirements.',
       'Built foundational scripts for document ingestion and prompt engineering in preparation for secure implementation of large language models in criminal justice data environments.'

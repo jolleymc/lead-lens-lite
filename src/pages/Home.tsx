@@ -32,7 +32,7 @@ const Home = () => {
               Michael Jolley
             </h1>
             <p className="text-2xl md:text-3xl text-muted-foreground">
-              AI Intern at Pelican Intel
+              Incoming AI/ML Intern at General Dynamics Information Technology
             </p>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               AI | Cybersecurity | Networking | Python
