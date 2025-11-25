@@ -1,8 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Code2, Network, Database, Globe } from 'lucide-react';
+import { Code2, Network, Database, Globe, Shield } from 'lucide-react';
 
 const projects = [
+  {
+    title: 'Mini SOC (Security Operations Center) Dashboard',
+    period: 'Fall 2024',
+    icon: Shield,
+    tags: ['Linux', 'Cybersecurity', 'Grafana', 'Python (parsers)', 'IDS/IPS', 'Observability'],
+    description: 'Built a Linux-based Security Operations Center using Suricata, Loki, and Grafana to monitor real-time network threats and visualize security alerts. Developed a full ingestion pipeline that captures IDS events, parses JSON logs, and displays interactive security metrics such as top attack sources, alert severity, and traffic patterns.'
+  },
   {
     title: 'Steam Game Database Project',
     period: 'Spring 2025',
