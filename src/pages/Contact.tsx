@@ -82,12 +82,12 @@ const Contact = () => {
               </CardHeader>
               <CardContent>
                 <a 
-                  href="https://michaeljolley.dev" 
+                  href="https://www.linkedin.com/in/michael-jolley-23a4b2219/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-lg text-muted-foreground hover:text-primary transition-colors"
                 >
-                  michaeljolley.dev
+                  LinkedIn Profile
                 </a>
               </CardContent>
             </Card>
