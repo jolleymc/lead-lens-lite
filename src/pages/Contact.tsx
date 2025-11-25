@@ -130,14 +130,6 @@ const Contact = () => {
             </CardContent>
           </Card>
 
-          {/* Availability */}
-          <div className="text-center space-y-4">
-            <div className="inline-block px-6 py-3 bg-primary/10 rounded-full">
-              <p className="text-lg font-semibold text-primary">
-                Currently seeking Summer 2026 internship opportunities
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
