@@ -58,6 +58,7 @@ const About = () => {
                     <p className="font-semibold text-primary">Organizations</p>
                     <p className="text-muted-foreground">Phi Sigma Tau International Honor Society in Philosophy</p>
                     <p className="text-muted-foreground">Madison Tech Society</p>
+                    <p className="text-muted-foreground">Lambda Chi Alpha</p>
                   </div>
                 </div>
               </CardContent>
