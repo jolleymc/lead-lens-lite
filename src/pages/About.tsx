@@ -50,7 +50,7 @@ const About = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <p className="font-semibold text-primary">Academic Performance</p>
-                    <p className="text-muted-foreground">Cumulative GPA: 3.482</p>
+                    <p className="text-muted-foreground">Cumulative GPA: 3.360</p>
                     <p className="text-muted-foreground">Dean's List Fall 2024</p>
                     <p className="text-muted-foreground">President's List Spring 2025</p>
                   </div>
