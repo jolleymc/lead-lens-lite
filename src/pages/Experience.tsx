@@ -4,6 +4,15 @@ import { Briefcase } from 'lucide-react';
 
 const experiences = [
   {
+    title: 'Software Engineering Intern',
+    company: 'Tidal Cyber with CCI Experiential Entrepreneurship Internship Program',
+    location: 'Remote',
+    period: '01/2026 – Present',
+    description: [
+      'SWE Intern for Tidal Cyber.'
+    ]
+  },
+  {
     title: 'AI/ML Intern',
     company: 'General Dynamics Information Technology',
     location: 'TBD',
@@ -17,7 +26,7 @@ const experiences = [
     title: 'AI Intern',
     company: 'Pelican Intel with CCI Experiential Entrepreneurship Internship Program',
     location: 'Remote',
-    period: '09/2024 – Present',
+    period: '09/2025 – 12/2025',
     description: [
       'Developed proof-of-concept workflows in Python using LangChain to prototype LLM-based chatbots and semantic search tools, ensuring alignment with CJIS compliance requirements.',
       'Built foundational scripts for document ingestion and prompt engineering in preparation for secure implementation of large language models in criminal justice data environments.'
