@@ -15,7 +15,7 @@ const experiences = [
   {
     title: 'AI/ML Intern',
     company: 'General Dynamics Information Technology',
-    location: 'TBD',
+    location: 'Falls Church, VA',
     period: 'Summer 2025',
     description: [
       'Incoming AI/ML Intern for Summer 2025.',
