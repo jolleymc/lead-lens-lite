@@ -2,7 +2,6 @@ import { PageHeading } from '@/components/PageHeading';
 
 const contactInfo = [
   { label: 'Email', value: 'jolleymc@gmail.com', href: 'mailto:jolleymc@gmail.com' },
-  { label: 'Phone', value: '(571) 528-6985', href: 'tel:571-528-6985' },
   { label: 'Location', value: 'Washington D.C. Metro Area', href: null },
   { label: 'LinkedIn', value: 'linkedin.com/in/michael-jolley-23a4b2219', href: 'https://www.linkedin.com/in/michael-jolley-23a4b2219/' },
   { label: 'GitHub', value: 'github.com/jolleymc', href: 'https://github.com/jolleymc' },

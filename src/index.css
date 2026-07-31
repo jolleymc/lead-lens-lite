@@ -138,11 +138,4 @@ All colors MUST be HSL. Single fixed light theme — no dark mode variant. */
       opacity: 0;
     }
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    .cursor-caret.blink {
-      animation: none;
-      opacity: 1;
-    }
-  }
 }
