@@ -1,5 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { PageHeading } from '@/components/PageHeading';
 
 const experiences = [
   {
@@ -57,48 +56,34 @@ const experiences = [
 
 const Experience = () => {
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto space-y-12 animate-fade-in">
-          {/* Header */}
-          <div className="text-center space-y-4">
-            <h1 className="text-5xl font-bold gradient-text">Experience</h1>
-            <p className="text-xl text-muted-foreground">
-              Professional journey and achievements
-            </p>
-          </div>
+    <div className="min-h-screen px-6 py-14 md:px-14 md:py-20 animate-fade-in">
+      <div className="max-w-3xl">
+        <PageHeading
+          eyebrow="~/portfolio/experience"
+          title="Experience"
+          subline="Professional journey and achievements"
+        />
 
-          {/* Timeline */}
-          <div className="space-y-8">
-            {experiences.map((exp, index) => (
-              <Card key={index} className="card-hover" style={{ animationDelay: `${index * 0.1}s` }}>
-                <CardHeader>
-                  <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
-                    <div className="space-y-2">
-                      <CardTitle className="text-2xl">{exp.title}</CardTitle>
-                      <CardDescription className="text-base">
-                        {exp.company}
-                      </CardDescription>
-                      <p className="text-sm text-muted-foreground">{exp.location}</p>
-                    </div>
-                    <Badge variant="outline" className="text-sm shrink-0">
-                      {exp.period}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
-                    {exp.description.map((item, i) => (
-                      <li key={i} className="flex gap-3 text-muted-foreground">
-                        <span className="text-primary shrink-0">•</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <div className="flex flex-col gap-4">
+          {experiences.map((exp, index) => (
+            <div key={index} className="flat-card">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-2 mb-1">
+                <h3 className="font-mono text-base font-semibold text-foreground">{exp.title}</h3>
+                <span className="meta-date shrink-0">{exp.period}</span>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                {exp.company} · {exp.location}
+              </p>
+              <ul className="space-y-2">
+                {exp.description.map((item, i) => (
+                  <li key={i} className="flex gap-3 text-sm text-muted-foreground">
+                    <span className="text-primary shrink-0">–</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -1,8 +1,5 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { Menu } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -10,57 +7,78 @@ const navLinks = [
   { name: 'Experience', path: '/experience' },
   { name: 'Projects', path: '/projects' },
   { name: 'Skills', path: '/skills' },
+  { name: 'Personal', path: '/personal' },
   { name: 'Contact', path: '/contact' },
 ];
 
 export const Navigation = () => {
   const location = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const NavLinks = () => (
-    <>
-      {navLinks.map((link) => (
-        <Link key={link.path} to={link.path}>
-          <Button
-            variant={location.pathname === link.path ? 'default' : 'ghost'}
-            className="transition-all"
-          >
-            {link.name}
-          </Button>
-        </Link>
-      ))}
-    </>
-  );
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold text-foreground">
-          MJ
+    <>
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex md:flex-col md:w-56 md:shrink-0 md:h-screen md:sticky md:top-0 border-r border-border bg-secondary/40 px-6 py-8">
+        <Link to="/" className="mb-10 block">
+          <span className="block font-mono text-sm font-semibold text-foreground">
+            Michael Jolley
+          </span>
+          <span className="block font-mono text-xs text-muted-foreground">
+            portfolio/
+          </span>
         </Link>
+        <nav className="flex flex-col gap-1">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`px-3 py-1.5 text-sm border-l-2 transition-colors ${
+                isActive(link.path)
+                  ? 'border-primary text-primary bg-accent font-medium'
+                  : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-secondary'
+              }`}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </nav>
+      </aside>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-2">
-          <NavLinks />
-          <ThemeToggle />
+      {/* Mobile top bar */}
+      <div className="md:hidden sticky top-0 z-50 bg-background border-b border-border">
+        <div className="flex items-center justify-between px-4 py-3">
+          <Link to="/" className="font-mono text-sm font-semibold text-foreground">
+            Michael Jolley
+          </Link>
+          <button
+            onClick={() => setMobileOpen((open) => !open)}
+            className="font-mono text-sm text-muted-foreground hover:text-foreground"
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? 'Close' : 'Menu'}
+          </button>
         </div>
-
-        {/* Mobile Navigation */}
-        <div className="md:hidden flex items-center gap-2">
-          <ThemeToggle />
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <div className="flex flex-col gap-4 mt-8">
-                <NavLinks />
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+        {mobileOpen && (
+          <nav className="flex flex-col border-t border-border">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => setMobileOpen(false)}
+                className={`px-4 py-3 text-sm border-b border-border last:border-b-0 ${
+                  isActive(link.path)
+                    ? 'text-primary bg-accent font-medium'
+                    : 'text-muted-foreground'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+        )}
       </div>
-    </nav>
+    </>
   );
 };

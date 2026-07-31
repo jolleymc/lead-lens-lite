@@ -1,85 +1,50 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Code, Briefcase, Trophy, Mail } from 'lucide-react';
+import { PageHeading } from '@/components/PageHeading';
 import { Link } from 'react-router-dom';
+
+const quickLinks = [
+  { to: '/experience', label: 'Experience', desc: '5+ roles across AI, cybersecurity, and software' },
+  { to: '/projects', label: 'Projects', desc: '8+ technical projects & labs' },
+  { to: '/skills', label: 'Skills', desc: '30+ technical skills' },
+];
 
 const Home = () => {
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 md:pt-32">
-        <div className="container mx-auto px-4 text-center space-y-12 animate-fade-in">
-          {/* Profile Image */}
-          <div className="flex justify-center mb-8">
-            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl">
-              <img
-                src="/lovable-uploads/9427fcde-3345-4bda-acfa-a2ca6e2f3e9a.png"
-                alt="Michael Jolley"
-                className="w-full h-full object-cover object-[center_20%]"
-              />
-            </div>
-          </div>
+    <div className="min-h-screen px-6 py-14 md:px-14 md:py-20 animate-fade-in">
+      <div className="max-w-2xl">
+        <PageHeading
+          eyebrow="~/portfolio"
+          title="Michael Jolley"
+          subline="AI/ML Technical Intern at General Dynamics Information Technology"
+        />
 
-          {/* Hero Text */}
-          <div className="space-y-6 max-w-4xl mx-auto">
-            <h1 className="text-6xl md:text-7xl font-bold leading-tight gradient-text">
-              Michael Jolley
-            </h1>
-            <p className="text-2xl md:text-3xl text-muted-foreground">
-              AI/ML Technical Intern at General Dynamics Information Technology
-            </p>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              AI | Cybersecurity | Networking | Python
-            </p>
-          </div>
+        <p className="text-sm leading-7 text-muted-foreground max-w-xl mb-10">
+          Working across <span className="text-primary">applied AI</span>, cybersecurity, and
+          backend engineering. James Madison University — B.S. Information Technology, minor in
+          Philosophy. Interested in zero-trust systems, LLM tooling, and building things that ship.
+        </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-            <Link to="/about">
-              <Button size="lg" className="gap-2 text-lg px-8 py-6">
-                Explore Portfolio
-                <ArrowRight className="h-5 w-5" />
-              </Button>
-            </Link>
-            <Link to="/contact">
-              <Button size="lg" variant="outline" className="gap-2 text-lg px-8 py-6">
-                <Mail className="h-5 w-5" />
-                Contact Me
-              </Button>
-            </Link>
-          </div>
+        <div className="flex flex-wrap gap-3 mb-14">
+          <Link to="/about">
+            <Button size="default">Explore Portfolio</Button>
+          </Link>
+          <Link to="/contact">
+            <Button size="default" variant="outline">Contact Me</Button>
+          </Link>
+        </div>
 
-          {/* Quick Links */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto pt-16 pb-20">
-            <Link to="/experience" className="group">
-              <div className="p-6 rounded-xl border border-border bg-card/50 backdrop-blur card-hover">
-                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Briefcase className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Experience</h3>
-                <p className="text-muted-foreground">5+ roles in tech and sales</p>
-              </div>
+        <p className="section-label">elsewhere on this site</p>
+        <div className="flex flex-col border border-border rounded-sm divide-y divide-border">
+          {quickLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className="flex items-baseline justify-between gap-4 px-4 py-3 hover:bg-secondary/60 transition-colors"
+            >
+              <span className="font-mono text-sm text-foreground">{link.label}</span>
+              <span className="text-xs text-muted-foreground">{link.desc}</span>
             </Link>
-
-            <Link to="/projects" className="group">
-              <div className="p-6 rounded-xl border border-border bg-card/50 backdrop-blur card-hover">
-                <div className="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Code className="h-8 w-8 text-accent" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Projects</h3>
-                <p className="text-muted-foreground">8+ technical projects & labs</p>
-              </div>
-            </Link>
-
-            <Link to="/skills" className="group">
-              <div className="p-6 rounded-xl border border-border bg-card/50 backdrop-blur card-hover">
-                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Trophy className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Skills</h3>
-                <p className="text-muted-foreground">30+ technical skills</p>
-              </div>
-            </Link>
-          </div>
+          ))}
         </div>
       </div>
     </div>
