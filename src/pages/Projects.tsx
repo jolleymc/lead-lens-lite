@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Code2, Network, Database, Globe, Shield } from 'lucide-react';
+import { Code2, Network, Database, Globe, Shield, Spade } from 'lucide-react';
 
 const projects = [
   {
@@ -9,6 +9,13 @@ const projects = [
     icon: Shield,
     tags: ['Linux', 'Cybersecurity', 'Grafana', 'Python (parsers)', 'IDS/IPS', 'Observability'],
     description: 'Built a Linux-based Security Operations Center using Suricata, Loki, and Grafana to monitor real-time network threats and visualize security alerts. Developed a full ingestion pipeline that captures IDS events, parses JSON logs, and displays interactive security metrics such as top attack sources, alert severity, and traffic patterns.'
+  },
+  {
+    title: 'Screen Reader Poker Analysis Tool',
+    period: '2024 – 2026',
+    icon: Spade,
+    tags: ['Python', 'Screen Reading', 'Probability', 'Automation', 'Claude API'],
+    description: 'Developed a screen-reader-based poker analysis tool that continuously captures table state on screen changes, logging hole cards, community cards, and opponent actions. Integrates the Claude Haiku API to deliver real-time, AI-driven move recommendations alongside calculated win probabilities, enabling players to practice strategy and hand-reading in play-money games before transitioning to real-stakes poker.'
   },
   {
     title: 'Steam Game Database Project',
@@ -73,10 +80,7 @@ const Projects = () => {
         <div className="max-w-4xl mx-auto space-y-12 animate-fade-in">
           {/* Header */}
           <div className="text-center space-y-4">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Code2 className="h-10 w-10 text-primary" />
-              <h1 className="text-5xl font-bold gradient-text">Projects & Labs</h1>
-            </div>
+            <h1 className="text-5xl font-bold gradient-text">Projects & Labs</h1>
             <p className="text-xl text-muted-foreground">
               Hands-on experience with real-world applications
             </p>
@@ -169,7 +173,7 @@ const Projects = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Badge variant="outline" className="mb-3">12/2023 – Present</Badge>
+                  <Badge variant="outline" className="mb-3">12/2023 – 11/2025</Badge>
                   <p className="text-muted-foreground">
                     Led study sessions promoting academic success within the fraternity. Helped facilitate an overall chapter GPA growth of .2 on a 4.0 scale.
                   </p>

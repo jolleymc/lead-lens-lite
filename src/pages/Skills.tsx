@@ -31,7 +31,8 @@ const skillCategories = [
       'Ubuntu',
       'VMWare',
       'Socket Programming',
-      'RIP'
+      'RIP',
+      'iptables'
     ]
   },
   {
@@ -41,7 +42,8 @@ const skillCategories = [
     skills: [
       'Tableau',
       'Microsoft Suite',
-      'JIRA'
+      'JIRA',
+      'Kubernetes'
     ]
   },
   {
@@ -74,6 +76,9 @@ const skillCategories = [
       'Sales',
       'Logical Reasoning',
       'Persuasive Writing',
+      'Troubleshooting',
+      'Decision Making',
+      'Zero-Trust',
       'Intercultural Skills'
     ]
   }

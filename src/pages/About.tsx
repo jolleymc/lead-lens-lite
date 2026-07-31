@@ -17,7 +17,7 @@ const About = () => {
 
           {/* Profile Image */}
           <div className="flex justify-center">
-            <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg animate-float">
+            <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
               <img 
                 src="/lovable-uploads/9427fcde-3345-4bda-acfa-a2ca6e2f3e9a.png" 
                 alt="Michael Jolley" 
@@ -50,8 +50,8 @@ const About = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <p className="font-semibold text-primary">Academic Performance</p>
-                    <p className="text-muted-foreground">Cumulative GPA: 3.360</p>
-                    <p className="text-muted-foreground">Dean's List Fall 2024</p>
+                    <p className="text-muted-foreground">Cumulative GPA: 3.388</p>
+                    <p className="text-muted-foreground">Dean's List Fall 2024, Spring 2026</p>
                     <p className="text-muted-foreground">President's List Spring 2025</p>
                   </div>
                   <div>
@@ -79,7 +79,9 @@ const About = () => {
                     'Digital Electronics',
                     'Database Administration',
                     'Web Technology',
-                    'Advanced Networking for Information Technology'
+                    'Advanced Networking for Information Technology',
+                    'Operating Systems Admin',
+                    'Data Science and Machine Learning'
                   ].map((course) => (
                     <Badge key={course} variant="secondary" className="text-sm">
                       {course}
@@ -119,6 +121,33 @@ const About = () => {
                   </div>
                   <h4 className="font-semibold mb-2">Intercultural Skills</h4>
                   <p className="text-sm text-muted-foreground">Global Career Accelerator</p>
+                </CardContent>
+              </Card>
+              <Card className="card-hover text-center">
+                <CardContent className="pt-6">
+                  <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <GraduationCap className="h-8 w-8 text-accent" />
+                  </div>
+                  <h4 className="font-semibold mb-2">Microsoft Azure AI Fundamentals</h4>
+                  <p className="text-sm text-muted-foreground">Microsoft</p>
+                </CardContent>
+              </Card>
+              <Card className="card-hover text-center">
+                <CardContent className="pt-6">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <GraduationCap className="h-8 w-8 text-primary" />
+                  </div>
+                  <h4 className="font-semibold mb-2">Virtru Data Security Platform Partner</h4>
+                  <p className="text-sm text-muted-foreground">Virtru</p>
+                </CardContent>
+              </Card>
+              <Card className="card-hover text-center">
+                <CardContent className="pt-6">
+                  <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <GraduationCap className="h-8 w-8 text-accent" />
+                  </div>
+                  <h4 className="font-semibold mb-2">CCI Cybersecurity Fundamentals Traineeship</h4>
+                  <p className="text-sm text-muted-foreground">CCI</p>
                 </CardContent>
               </Card>
             </div>

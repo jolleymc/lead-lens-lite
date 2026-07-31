@@ -5,22 +5,15 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <div className="min-h-screen">
-      {/* Hero Section with Animated Background */}
+      {/* Hero Section */}
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 md:pt-32">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
-        </div>
-
         <div className="container mx-auto px-4 text-center space-y-12 animate-fade-in">
           {/* Profile Image */}
           <div className="flex justify-center mb-8">
-            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl animate-float-soft">
-              <img 
-                src="/lovable-uploads/9427fcde-3345-4bda-acfa-a2ca6e2f3e9a.png" 
-                alt="Michael Jolley" 
+            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl">
+              <img
+                src="/lovable-uploads/9427fcde-3345-4bda-acfa-a2ca6e2f3e9a.png"
+                alt="Michael Jolley"
                 className="w-full h-full object-cover object-[center_20%]"
               />
             </div>
@@ -28,11 +21,11 @@ const Home = () => {
 
           {/* Hero Text */}
           <div className="space-y-6 max-w-4xl mx-auto">
-            <h1 className="text-6xl md:text-7xl font-bold leading-tight text-foreground">
+            <h1 className="text-6xl md:text-7xl font-bold leading-tight gradient-text">
               Michael Jolley
             </h1>
             <p className="text-2xl md:text-3xl text-muted-foreground">
-              Incoming AI/ML Intern at General Dynamics Information Technology
+              AI/ML Technical Intern at General Dynamics Information Technology
             </p>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               AI | Cybersecurity | Networking | Python
@@ -42,7 +35,7 @@ const Home = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
             <Link to="/about">
-              <Button size="lg" className="gap-2 text-lg px-8 py-6 animate-glow">
+              <Button size="lg" className="gap-2 text-lg px-8 py-6">
                 Explore Portfolio
                 <ArrowRight className="h-5 w-5" />
               </Button>

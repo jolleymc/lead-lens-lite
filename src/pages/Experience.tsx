@@ -1,25 +1,26 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Briefcase } from 'lucide-react';
 
 const experiences = [
+  {
+    title: 'AI / Machine Learning Technical Intern',
+    company: 'General Dynamics Information Technology',
+    location: 'Falls Church, VA',
+    period: '06/2026 – 08/2026',
+    description: [
+      'Developed AI capabilities for a DISA-targeted Integrated MPE Zero Trust Common Operating Picture, a secure coalition communications platform designed for information handling, continuous authentication, and future battlespace interoperability.',
+      'Built and shipped a full-stack LLM-powered chat summarization service across four releases, spanning a Python microservice, React widget, Redis persistence, and Prometheus/Grafana observability on GKE.',
+      'Conducted GDC-A thin client network connectivity testing and authored application test cases; hardened air-gapped deployment by replacing cloud Vertex AI with in-cluster Gemma serving and enforcing zero-trust Kubernetes NetworkPolicy.'
+    ]
+  },
   {
     title: 'Software Engineering Intern',
     company: 'Tidal Cyber with CCI Experiential Entrepreneurship Internship Program',
     location: 'Remote',
-    period: '01/2026 – Present',
+    period: '01/2026 – 05/2026',
     description: [
-      'SWE Intern for Tidal Cyber.'
-    ]
-  },
-  {
-    title: 'AI/ML Intern',
-    company: 'General Dynamics Information Technology',
-    location: 'Falls Church, VA',
-    period: 'Summer 2025',
-    description: [
-      'Incoming AI/ML Intern for Summer 2025.',
-      'Will work on artificial intelligence and machine learning projects supporting mission-critical operations.'
+      'Built and shipped backend features for the Tidal Cyber cybersecurity platform using Django, Python, and AWS.',
+      'Work spanned REST API development, Celery task design, database infrastructure, test coverage, and AWS CDK native blue/green deployment.'
     ]
   },
   {
@@ -33,6 +34,16 @@ const experiences = [
     ]
   },
   {
+    title: 'Sales and Lead Generation Associate',
+    company: 'Lansdowne Technology Consulting',
+    location: 'Leesburg, VA',
+    period: '06/2025 – 09/2025',
+    description: [
+      'Conducted cold outreach and qualification to 30+ prospective clients weekly across multiple industries.',
+      'Developed a custom CRM tool, streamlining sales workflow and increasing personal productivity.'
+    ]
+  },
+  {
     title: 'Technology Intern',
     company: 'Lansdowne Technology Consulting',
     location: 'Ashburn, VA',
@@ -40,36 +51,6 @@ const experiences = [
     description: [
       'Developed and deployed RESTful APIs using Django and Django REST Framework, supporting a client contract and enabling scalable software solutions in an agile JIRA environment.',
       'Collaborated with senior developers to resolve 5-10 backend issues per sprint, improving code reliability and gaining exposure to AWS networking and secure cloud deployment practices.'
-    ]
-  },
-  {
-    title: 'Sales and Lead Generation Associate',
-    company: 'Lansdowne Technology Consulting',
-    location: 'Leesburg, VA',
-    period: '06/2025 – 09/2025',
-    description: [
-      'Conducted cold outreach and qualification to 30+ prospective clients weekly across multiple industries.',
-      'Developed a custom CRM tool that reduced lead tracking and follow-up time by 40%, streamlining sales workflow and increasing personal productivity.'
-    ]
-  },
-  {
-    title: 'SQL and Python Trainee',
-    company: 'Global Career Accelerator: Coding for Data',
-    location: 'Harrisonburg, VA',
-    period: '08/2024 – 01/2025',
-    description: [
-      'Applied data analytics skills using SQL, Python, and Tableau to examine user behavior across multiple industries and identify key trends.',
-      'Communicated analytical findings through presentations and Tableau data visualizations for diverse business scenarios.'
-    ]
-  },
-  {
-    title: 'Sales Associate',
-    company: 'EBike Connections',
-    location: 'Leesburg, VA',
-    period: '06/2025 – 08/2025',
-    description: [
-      'Assisted customers in selecting e-bikes tailored to their needs while providing clear product guidance.',
-      'Sold over $8000 of inventory over the course of the summer.'
     ]
   }
 ];
@@ -81,10 +62,7 @@ const Experience = () => {
         <div className="max-w-4xl mx-auto space-y-12 animate-fade-in">
           {/* Header */}
           <div className="text-center space-y-4">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Briefcase className="h-10 w-10 text-primary" />
-              <h1 className="text-5xl font-bold gradient-text">Experience</h1>
-            </div>
+            <h1 className="text-5xl font-bold gradient-text">Experience</h1>
             <p className="text-xl text-muted-foreground">
               Professional journey and achievements
             </p>
